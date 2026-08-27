@@ -323,9 +323,6 @@
 <script>
 /* ============================================================
    CONFIGURACIÓN FIREBASE
-   Reemplazar con la config real del proyecto (la misma que usan
-   las otras apps COD si se quiere compartir el proyecto, o una
-   nueva si se prefiere aislar la Biblioteca).
    ============================================================ */
 const firebaseConfig = {
   apiKey: "AIzaSyBvE7RSYKS4gmwcq48FttdR55fIjcj9dbU",
@@ -368,6 +365,10 @@ function login(){
 document.getElementById("logoutBtn").addEventListener("click", () => auth.signOut());
 
 auth.onAuthStateChanged(user => {
+  if(user && user.isAnonymous){
+    auth.signOut();
+    return;
+  }
   currentUser = user;
   if(user){
     document.getElementById("loginScreen").style.display = "none";
@@ -388,6 +389,9 @@ function cargarDocumentos(){
     documentos = snap.val() || {};
     poblarFiltros();
     render();
+  }, err => {
+    document.getElementById("grid").innerHTML =
+      `<div class="empty" style="grid-column:1/-1;">No se pudo leer el catálogo (${err.message}). Verificá las reglas de seguridad en Firebase.</div>`;
   });
 }
 
