@@ -30,8 +30,6 @@
     color:var(--texto);
     min-height:100vh;
   }
-
-  /* ---------- LOGIN ---------- */
   #loginScreen{
     min-height:100vh;
     display:flex;
@@ -80,8 +78,6 @@
     display:none;background:#FDEEEF;color:var(--rojo);border:1px solid #F5C6CB;
     padding:10px 12px;border-radius:8px;font-size:13px;margin-bottom:14px;
   }
-
-  /* ---------- APP ---------- */
   #app{display:none;}
   header{
     background:#fff;border-bottom:1px solid var(--gris-borde);
@@ -102,9 +98,7 @@
     padding:8px 14px;border-radius:8px;font-size:13px;cursor:pointer;font-weight:600;
   }
   #logoutBtn:hover{border-color:var(--rojo);color:var(--rojo);}
-
   main{max-width:1200px;margin:0 auto;padding:24px 28px 60px;}
-
   .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:22px;}
   .stat-card{
     background:#fff;border:1px solid var(--gris-borde);border-radius:12px;padding:16px 18px;
@@ -112,7 +106,6 @@
   }
   .stat-card .num{font-size:24px;font-weight:800;color:var(--verde-oscuro);}
   .stat-card .lbl{font-size:12px;color:var(--texto-suave);margin-top:2px;}
-
   .toolbar{
     display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
     background:#fff;border:1px solid var(--gris-borde);border-radius:12px;padding:14px 16px;margin-bottom:18px;
@@ -127,7 +120,6 @@
     font-weight:700;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap;
   }
   #newDocBtn:hover{background:var(--verde-oscuro);}
-
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;}
   .doc-card{
     background:#fff;border:1px solid var(--gris-borde);border-radius:12px;padding:16px 18px;
@@ -152,10 +144,7 @@
   }
   .doc-card .actions .del{color:var(--rojo);margin-left:auto;}
   .doc-card .actions a.disabled{color:#B9C1BF;pointer-events:none;}
-
   .empty{text-align:center;padding:60px 20px;color:var(--texto-suave);}
-
-  /* portal a otras apps */
   .portal{margin-top:36px;}
   .portal h4{font-size:14px;color:var(--verde-oscuro);margin-bottom:12px;}
   .portal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;}
@@ -168,8 +157,6 @@
   .portal-card i{font-size:20px;color:var(--verde-primario);}
   .portal-card .t{font-size:13px;font-weight:700;}
   .portal-card .s{font-size:11px;color:var(--texto-suave);}
-
-  /* ---------- MODAL ---------- */
   .modal-overlay{
     display:none;position:fixed;inset:0;background:rgba(21,87,72,.45);
     align-items:center;justify-content:center;z-index:100;padding:20px;
@@ -192,7 +179,6 @@
 </head>
 <body>
 
-<!-- ===================== LOGIN ===================== -->
 <div id="loginScreen">
   <div class="login-box">
     <div class="login-logo">
@@ -213,7 +199,6 @@
   </div>
 </div>
 
-<!-- ===================== APP ===================== -->
 <div id="app">
   <header>
     <div class="brand">
@@ -265,7 +250,6 @@
   </main>
 </div>
 
-<!-- ===================== MODAL DOCUMENTO ===================== -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <h3 id="modalTitle">Nuevo documento</h3>
@@ -321,9 +305,6 @@
 </div>
 
 <script>
-/* ============================================================
-   CONFIGURACIÓN FIREBASE
-   ============================================================ */
 const firebaseConfig = {
   apiKey: "AIzaSyBvE7RSYKS4gmwcq48FttdR55fIjcj9dbU",
   authDomain: "epec---capacitaciones.firebaseapp.com",
@@ -336,13 +317,13 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
+auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
 const db = firebase.database();
 const NODO = "biblioteca_documentos";
 
 let documentos = {};
 let currentUser = null;
 
-/* ---------- LOGIN / LOGOUT ---------- */
 document.getElementById("loginBtn").addEventListener("click", login);
 document.getElementById("loginPassword").addEventListener("keydown", e => { if (e.key === "Enter") login(); });
 
@@ -383,7 +364,6 @@ auth.onAuthStateChanged(user => {
   }
 });
 
-/* ---------- CARGA Y RENDER ---------- */
 function cargarDocumentos(){
   db.ref(NODO).on("value", snap => {
     documentos = snap.val() || {};
@@ -487,7 +467,6 @@ function renderStats(){
   `;
 }
 
-/* ---------- ALTA / EDICIÓN / BAJA ---------- */
 const overlay = document.getElementById("modalOverlay");
 
 document.getElementById("newDocBtn").addEventListener("click", () => abrirModal());
