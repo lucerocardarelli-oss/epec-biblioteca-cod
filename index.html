@@ -30,6 +30,8 @@
     color:var(--texto);
     min-height:100vh;
   }
+
+  /* ---------- LOGIN ---------- */
   #loginScreen{
     min-height:100vh;
     display:flex;
@@ -78,6 +80,8 @@
     display:none;background:#FDEEEF;color:var(--rojo);border:1px solid #F5C6CB;
     padding:10px 12px;border-radius:8px;font-size:13px;margin-bottom:14px;
   }
+
+  /* ---------- APP ---------- */
   #app{display:none;}
   header{
     background:#fff;border-bottom:1px solid var(--gris-borde);
@@ -98,7 +102,9 @@
     padding:8px 14px;border-radius:8px;font-size:13px;cursor:pointer;font-weight:600;
   }
   #logoutBtn:hover{border-color:var(--rojo);color:var(--rojo);}
+
   main{max-width:1200px;margin:0 auto;padding:24px 28px 60px;}
+
   .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:22px;}
   .stat-card{
     background:#fff;border:1px solid var(--gris-borde);border-radius:12px;padding:16px 18px;
@@ -106,6 +112,7 @@
   }
   .stat-card .num{font-size:24px;font-weight:800;color:var(--verde-oscuro);}
   .stat-card .lbl{font-size:12px;color:var(--texto-suave);margin-top:2px;}
+
   .toolbar{
     display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
     background:#fff;border:1px solid var(--gris-borde);border-radius:12px;padding:14px 16px;margin-bottom:18px;
@@ -120,6 +127,7 @@
     font-weight:700;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap;
   }
   #newDocBtn:hover{background:var(--verde-oscuro);}
+
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;}
   .doc-card{
     background:#fff;border:1px solid var(--gris-borde);border-radius:12px;padding:16px 18px;
@@ -144,7 +152,10 @@
   }
   .doc-card .actions .del{color:var(--rojo);margin-left:auto;}
   .doc-card .actions a.disabled{color:#B9C1BF;pointer-events:none;}
+
   .empty{text-align:center;padding:60px 20px;color:var(--texto-suave);}
+
+  /* portal a otras apps */
   .portal{margin-top:36px;}
   .portal h4{font-size:14px;color:var(--verde-oscuro);margin-bottom:12px;}
   .portal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;}
@@ -157,6 +168,8 @@
   .portal-card i{font-size:20px;color:var(--verde-primario);}
   .portal-card .t{font-size:13px;font-weight:700;}
   .portal-card .s{font-size:11px;color:var(--texto-suave);}
+
+  /* ---------- MODAL ---------- */
   .modal-overlay{
     display:none;position:fixed;inset:0;background:rgba(21,87,72,.45);
     align-items:center;justify-content:center;z-index:100;padding:20px;
@@ -175,10 +188,59 @@
   .btn-secondary{background:#fff;border:1.5px solid var(--gris-borde);padding:10px 16px;border-radius:8px;font-weight:600;font-size:13px;cursor:pointer;}
   .btn-primary{background:var(--verde-primario);color:#fff;border:none;padding:10px 18px;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;}
   .btn-primary:hover{background:var(--verde-oscuro);}
+
+  .field select{width:100%;padding:11px 12px;border:1.5px solid var(--gris-borde);border-radius:8px;font-size:14px;font-family:inherit;background:#fff;}
+  .field select:focus{outline:none;border-color:var(--verde-primario);}
+  .maintabs{display:flex;gap:6px;padding:0 28px;background:#fff;border-bottom:1px solid var(--gris-borde);}
+  .maintab{border:none;background:none;padding:12px 16px;font-family:inherit;font-size:14px;font-weight:600;color:var(--texto-suave);cursor:pointer;border-bottom:3px solid transparent;display:flex;align-items:center;gap:6px;}
+  .maintab:hover{color:var(--verde-oscuro);}
+  .maintab.active{color:var(--verde-primario);border-bottom-color:var(--verde-primario);}
+  .tabcount{background:var(--verde-primario);color:#fff;border-radius:20px;font-size:11px;padding:1px 7px;}
+  .tabcount:empty{display:none;}
+  .panel{background:#fff;border:1px solid var(--gris-borde);border-radius:12px;padding:16px 18px;margin-bottom:18px;}
+  .panel h4{font-size:14px;color:var(--verde-oscuro);margin-bottom:4px;}
+  .panel .hint{font-size:12px;color:var(--texto-suave);margin-bottom:10px;}
+  .toprow{display:flex;align-items:center;gap:10px;font-size:13px;padding:5px 0;cursor:pointer;}
+  .toprow:hover .nm{color:var(--verde-primario);}
+  .toprow .nm{flex:0 0 46%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .toprow .bar{flex:1;height:8px;background:var(--gris-bg);border-radius:4px;overflow:hidden;}
+  .toprow .bar i{display:block;height:100%;background:var(--verde-medio);}
+  .toprow .n{flex:0 0 24px;text-align:right;font-weight:700;color:var(--verde-oscuro);}
+  #newEvtBtn{background:var(--verde-primario);color:#fff;border:none;padding:10px 16px;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap;}
+  #newEvtBtn:hover{background:var(--verde-oscuro);}
+  .evlist{display:grid;gap:14px;}
+  .ev-card{background:#fff;border:1px solid var(--gris-borde);border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:10px;}
+  .ev-head{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+  .ev-card .tipo-tag{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;background:rgba(33,133,112,.12);color:var(--verde-oscuro);}
+  .ev-card .meta{font-size:12px;color:var(--texto-suave);display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+  .ev-card .meta span{display:flex;align-items:center;gap:4px;}
+  .ev-fecha{font-size:12px;color:var(--texto-suave);display:flex;align-items:center;gap:4px;}
+  .pill-practica{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;background:#FFF3CD;color:#8A6D00;display:flex;align-items:center;gap:4px;}
+  .ev-card h3{font-size:16px;line-height:1.35;}
+  .chip{display:inline-flex;align-items:center;gap:4px;font-size:12px;background:var(--gris-bg);border:1px solid var(--gris-borde);padding:2px 9px;border-radius:20px;color:var(--verde-oscuro);cursor:pointer;}
+  .chip:hover{border-color:var(--verde-primario);}
+  .ev-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--verde-oscuro);margin-bottom:2px;}
+  .ev-sec p{font-size:13.5px;line-height:1.5;white-space:pre-wrap;}
+  .ev-leccion{background:rgba(33,133,112,.08);border-left:4px solid var(--verde-primario);padding:10px 12px;border-radius:0 8px 8px 0;}
+  .ev-accion{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+  .acc-pill{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;}
+  .acc-Abierta{background:#FFF3CD;color:#8A6D00;}
+  .acc-Encurso{background:#DCEEFB;color:#1A5E8C;}
+  .acc-Cerrada{background:rgba(43,168,136,.15);color:var(--verde-oscuro);}
+  .ev-card .actions{display:flex;gap:8px;padding-top:8px;border-top:1px solid var(--gris-borde);}
+  .ev-card .actions button{font-size:12px;font-weight:600;border:none;background:none;cursor:pointer;display:flex;align-items:center;gap:4px;color:var(--verde-primario);}
+  .ev-card .actions .del{color:var(--rojo);margin-left:auto;}
+  .modal.wide{max-width:640px;}
+  .chk{display:flex;gap:8px;align-items:center;font-size:13px;margin-top:4px;cursor:pointer;}
+  .chk input{width:auto;}
+  .note{font-size:12px;color:var(--texto-suave);margin:-8px 0 14px;}
+  .btn-ghost{background:#fff;border:1.5px solid var(--verde-primario);color:var(--verde-primario);padding:9px 16px;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;margin-top:12px;}
+  .btn-ghost:hover{background:var(--gris-bg);}
 </style>
 </head>
 <body>
 
+<!-- ===================== LOGIN ===================== -->
 <div id="loginScreen">
   <div class="login-box">
     <div class="login-logo">
@@ -199,6 +261,7 @@
   </div>
 </div>
 
+<!-- ===================== APP ===================== -->
 <div id="app">
   <header>
     <div class="brand">
@@ -214,7 +277,13 @@
     </div>
   </header>
 
+  <nav class="maintabs">
+    <button class="maintab active" id="tabDocs" onclick="cambiarVista('docs')"><i class="ti ti-books"></i> Documentos</button>
+    <button class="maintab" id="tabBit" onclick="cambiarVista('bit')"><i class="ti ti-notebook"></i> Bitácora <span class="tabcount" id="tabBitCount"></span></button>
+  </nav>
+
   <main>
+    <div id="viewDocs">
     <div class="stats" id="stats"></div>
 
     <div class="toolbar">
@@ -247,9 +316,27 @@
         </a>
       </div>
     </div>
+    </div>
+
+    <div id="viewBit" style="display:none;">
+      <div class="stats" id="bitStats"></div>
+      <div class="panel" id="bitTop"></div>
+      <div class="toolbar">
+        <div class="filters">
+          <input type="text" id="bBuscar" placeholder="Buscar en eventos, causas y lecciones...">
+          <select id="bTipo"><option value="">Todos los tipos</option></select>
+          <select id="bDoc"><option value="">Todos los documentos</option></select>
+          <select id="bAccion"><option value="">Todos los estados de acción</option></select>
+        </div>
+        <button id="newEvtBtn"><i class="ti ti-plus"></i> Nuevo evento</button>
+      </div>
+      <div class="evlist" id="evList"></div>
+      <div class="empty" id="evEmpty" style="display:none;"></div>
+    </div>
   </main>
 </div>
 
+<!-- ===================== MODAL DOCUMENTO ===================== -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <h3 id="modalTitle">Nuevo documento</h3>
@@ -304,7 +391,46 @@
   </div>
 </div>
 
+<!-- ===================== MODAL EVENTO ===================== -->
+<div class="modal-overlay" id="evtOverlay">
+  <div class="modal wide">
+    <h3 id="evtModalTitle">Nuevo evento</h3>
+    <input type="hidden" id="eId">
+    <div class="note">No cargues datos personales de clientes ni nombres de agentes en los textos libres.</div>
+    <div class="row2">
+      <div class="field"><label>Fecha del evento</label><input type="date" id="eFecha"></div>
+      <div class="field"><label>Tipo</label><select id="eTipo"></select></div>
+    </div>
+    <div class="field"><label>Título corto</label><input type="text" id="eTitulo" placeholder="Ej: Cortes reiterados en Cámara PORTA"></div>
+    <div class="field"><label>Proceso o manual relacionado</label><select id="eDoc"></select></div>
+    <div class="row2">
+      <div class="field"><label>Rol que intervino</label><select id="eRol"></select></div>
+      <div class="field"><label>Zona o instalación</label><input type="text" id="eZona" placeholder="Ej: ET Jardín, Barra 3"></div>
+    </div>
+    <div class="field"><label>Qué pasó</label><textarea id="eQue"></textarea></div>
+    <div class="field"><label>Causa o hallazgo</label><textarea id="eCausa"></textarea></div>
+    <div class="field"><label>Lección aprendida</label><textarea id="eLeccion"></textarea></div>
+    <div class="row2">
+      <div class="field"><label>Qué hay que cambiar</label><select id="eAccionTipo"></select></div>
+      <div class="field"><label>Estado de la acción</label><select id="eAccionEstado"></select></div>
+    </div>
+    <div class="field"><label>Acción de mejora</label><textarea id="eAccion"></textarea></div>
+    <div class="field"><label>Responsable (cargo o área)</label><input type="text" id="eResp"></div>
+    <label class="chk"><input type="checkbox" id="ePractica"> Sirve como caso de práctica para el simulador</label>
+    <div class="modal-actions">
+      <button class="btn-secondary" id="cancelEvt">Cancelar</button>
+      <button class="btn-primary" id="saveEvt">Guardar</button>
+    </div>
+  </div>
+</div>
+
 <script>
+/* ============================================================
+   CONFIGURACIÓN FIREBASE
+   Reemplazar con la config real del proyecto (la misma que usan
+   las otras apps COD si se quiere compartir el proyecto, o una
+   nueva si se prefiere aislar la Biblioteca).
+   ============================================================ */
 const firebaseConfig = {
   apiKey: "AIzaSyBvE7RSYKS4gmwcq48FttdR55fIjcj9dbU",
   authDomain: "epec---capacitaciones.firebaseapp.com",
@@ -322,8 +448,18 @@ const db = firebase.database();
 const NODO = "biblioteca_documentos";
 
 let documentos = {};
+let eventos = {};
+const NODO_BIT = "biblioteca_bitacora";
+
+function esc(s){
+  return String(s==null?"":s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function urlSegura(u){
+  return /^https?:\/\//i.test(u||"") ? u : "";
+}
 let currentUser = null;
 
+/* ---------- LOGIN / LOGOUT ---------- */
 document.getElementById("loginBtn").addEventListener("click", login);
 document.getElementById("loginPassword").addEventListener("keydown", e => { if (e.key === "Enter") login(); });
 
@@ -347,6 +483,7 @@ document.getElementById("logoutBtn").addEventListener("click", () => auth.signOu
 
 auth.onAuthStateChanged(user => {
   if(user && user.isAnonymous){
+    // Sesión anónima heredada de otra app COD en el mismo dominio: no sirve para esta app.
     auth.signOut();
     return;
   }
@@ -364,11 +501,15 @@ auth.onAuthStateChanged(user => {
   }
 });
 
+/* ---------- CARGA Y RENDER ---------- */
 function cargarDocumentos(){
+  cargarBitacora();
+  db.ref(NODO).off();
   db.ref(NODO).on("value", snap => {
     documentos = snap.val() || {};
     poblarFiltros();
     render();
+    renderBit();
   }, err => {
     document.getElementById("grid").innerHTML =
       `<div class="empty" style="grid-column:1/-1;">No se pudo leer el catálogo (${err.message}). Verificá las reglas de seguridad en Firebase.</div>`;
@@ -431,19 +572,22 @@ function render(){
     const estadoClass = "estado-" + (d.estado||"").replace(" ","");
     const card = document.createElement("div");
     card.className = "doc-card";
+    const nEv = conteoEventos(id);
+    const href = urlSegura(d.enlace);
     card.innerHTML = `
-      <span class="tipo-tag">${d.tipo||"Sin tipo"}</span>
-      <h3>${d.titulo||"(sin título)"}</h3>
+      <span class="tipo-tag">${esc(d.tipo||"Sin tipo")}</span>
+      <h3>${esc(d.titulo||"(sin título)")}</h3>
       <div class="meta">
-        <span><i class="ti ti-user"></i> ${d.rol||"-"}</span>
-        ${d.codigo ? `<span><i class="ti ti-hash"></i> ${d.codigo}</span>` : ""}
-        ${d.version ? `<span><i class="ti ti-git-branch"></i> ${d.version}</span>` : ""}
-        ${d.fecha ? `<span><i class="ti ti-calendar"></i> ${d.fecha}</span>` : ""}
+        <span><i class="ti ti-user"></i> ${esc(d.rol||"-")}</span>
+        ${d.codigo ? `<span><i class="ti ti-hash"></i> ${esc(d.codigo)}</span>` : ""}
+        ${d.version ? `<span><i class="ti ti-git-branch"></i> ${esc(d.version)}</span>` : ""}
+        ${d.fecha ? `<span><i class="ti ti-calendar"></i> ${esc(d.fecha)}</span>` : ""}
       </div>
-      <span class="estado-pill ${estadoClass}" style="align-self:flex-start;">${d.estado||"-"}</span>
-      ${d.descripcion ? `<p style="font-size:12.5px;color:#6B7280;">${d.descripcion}</p>` : ""}
+      <span class="estado-pill ${estadoClass}" style="align-self:flex-start;">${esc(d.estado||"-")}</span>
+      ${d.descripcion ? `<p style="font-size:12.5px;color:#6B7280;">${esc(d.descripcion)}</p>` : ""}
       <div class="actions">
-        ${d.enlace ? `<a href="${d.enlace}" target="_blank"><i class="ti ti-external-link"></i> Abrir</a>` : `<a class="disabled"><i class="ti ti-link-off"></i> Sin enlace</a>`}
+        ${href ? `<a href="${esc(href)}" target="_blank" rel="noopener"><i class="ti ti-external-link"></i> Abrir</a>` : `<a class="disabled"><i class="ti ti-link-off"></i> Sin enlace</a>`}
+        ${nEv ? `<button onclick="verEventosDe('${id}')"><i class="ti ti-notebook"></i> ${nEv} evento${nEv>1?"s":""}</button>` : ""}
         <button onclick="editarDoc('${id}')"><i class="ti ti-edit"></i> Editar</button>
         <button class="del" onclick="eliminarDoc('${id}')"><i class="ti ti-trash"></i> Eliminar</button>
       </div>
@@ -467,6 +611,7 @@ function renderStats(){
   `;
 }
 
+/* ---------- ALTA / EDICIÓN / BAJA ---------- */
 const overlay = document.getElementById("modalOverlay");
 
 document.getElementById("newDocBtn").addEventListener("click", () => abrirModal());
@@ -518,6 +663,282 @@ document.getElementById("saveDoc").addEventListener("click", () => {
   const ref = id ? db.ref(NODO + "/" + id) : db.ref(NODO).push();
   ref.set(data).then(() => { overlay.style.display = "none"; });
 });
+
+/* =====================================================================
+   BITÁCORA DE EVENTOS (conecta eventos reales con procesos y manuales)
+   ===================================================================== */
+const TIPOS_EVT = ["Falla de red","Reclamo","Desvío de proceso","Maniobra","Jornada de revisión","Otro"];
+const ROLES_EVT = ["Operador","Coordinador","JTMT","SCOD","JCOD","Guardia","Otro"];
+const ACCION_TIPOS = ["Sin definir","Actualizar proceso","Actualizar manual","Capacitar","Sin cambios"];
+const ACCION_ESTADOS = ["Abierta","En curso","Cerrada"];
+
+function cambiarVista(v){
+  const bit = v === "bit";
+  document.getElementById("viewDocs").style.display = bit ? "none" : "block";
+  document.getElementById("viewBit").style.display = bit ? "block" : "none";
+  document.getElementById("tabDocs").classList.toggle("active", !bit);
+  document.getElementById("tabBit").classList.toggle("active", bit);
+  if(bit) renderBit();
+}
+
+function cargarBitacora(){
+  db.ref(NODO_BIT).off();
+  db.ref(NODO_BIT).on("value", snap => {
+    eventos = snap.val() || {};
+    renderBit();
+    render();
+  }, err => {
+    document.getElementById("evList").innerHTML =
+      `<div class="empty">No se pudo leer la bitácora (${esc(err.message)}). Verificá las reglas de seguridad en Firebase.</div>`;
+  });
+}
+
+function conteoEventos(docId){
+  return Object.values(eventos).filter(e => e.docId === docId).length;
+}
+
+function verEventosDe(docId){
+  cambiarVista("bit");
+  document.getElementById("bBuscar").value = "";
+  document.getElementById("bTipo").value = "";
+  document.getElementById("bAccion").value = "";
+  document.getElementById("bDoc").value = docId;
+  renderBit();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function docNombre(e){
+  const d = e.docId ? documentos[e.docId] : null;
+  if(d) return { titulo: d.titulo || e.docTitulo || "", codigo: d.codigo || "" };
+  return { titulo: e.docTitulo || "", codigo: e.docCodigo || "" };
+}
+
+function llenarSel(id, valores, etiquetaTodos, pares){
+  const sel = document.getElementById(id);
+  const actual = sel.value;
+  sel.innerHTML = `<option value="">${etiquetaTodos}</option>`;
+  (pares || valores.map(v => [v, v])).forEach(([val, txt]) => {
+    const o = document.createElement("option");
+    o.value = val; o.textContent = txt;
+    sel.appendChild(o);
+  });
+  sel.value = actual;
+}
+
+function renderBit(){
+  if(!document.getElementById("evList")) return;
+  const lista0 = Object.entries(eventos);
+
+  document.getElementById("tabBitCount").textContent = lista0.length ? lista0.length : "";
+
+  llenarSel("bTipo", TIPOS_EVT, "Todos los tipos");
+  llenarSel("bAccion", ACCION_ESTADOS, "Todos los estados de acción");
+  const docsOrden = Object.entries(documentos).sort((a,b) => (a[1].titulo||"").localeCompare(b[1].titulo||""));
+  llenarSel("bDoc", null, "Todos los documentos", docsOrden.map(([id,d]) => [id, d.titulo || "(sin título)"]));
+
+  const total = lista0.length;
+  const pendientes = lista0.filter(([id,e]) => e.accionEstado !== "Cerrada" && e.accionTipo !== "Sin cambios").length;
+  const lecciones = lista0.filter(([id,e]) => (e.leccion||"").trim()).length;
+  const practica = lista0.filter(([id,e]) => e.practica).length;
+  document.getElementById("bitStats").innerHTML = `
+    <div class="stat-card"><div class="num">${total}</div><div class="lbl">Eventos registrados</div></div>
+    <div class="stat-card"><div class="num">${pendientes}</div><div class="lbl">Acciones pendientes</div></div>
+    <div class="stat-card"><div class="num">${lecciones}</div><div class="lbl">Lecciones aprendidas</div></div>
+    <div class="stat-card"><div class="num">${practica}</div><div class="lbl">Casos de práctica</div></div>`;
+
+  const porDoc = {};
+  lista0.forEach(([id,e]) => { if(e.docId) porDoc[e.docId] = (porDoc[e.docId]||0) + 1; });
+  const top = Object.entries(porDoc).sort((a,b) => b[1]-a[1]).slice(0,5);
+  const max = top.length ? top[0][1] : 1;
+  document.getElementById("bitTop").innerHTML = `
+    <h4>Dónde se repiten los eventos</h4>
+    <div class="hint">Procesos y manuales con más eventos vinculados. Tocá uno para ver sus eventos.</div>
+    ${top.length ? top.map(([docId,n]) => {
+        const d = documentos[docId];
+        const nombre = d ? d.titulo : (lista0.find(([i,e]) => e.docId === docId)[1].docTitulo || "(documento eliminado)");
+        return `<div class="toprow" onclick="verEventosDe('${docId}')"><span class="nm">${esc(nombre)}</span><span class="bar"><i style="width:${Math.round(n/max*100)}%"></i></span><span class="n">${n}</span></div>`;
+      }).join("") : `<div class="hint" style="margin:0;">Todavía no hay eventos vinculados a un documento. Al cargar un evento, elegí el proceso o manual que se aplicó y acá aparecen los que más se repiten.</div>`}`;
+
+  const fBuscar = document.getElementById("bBuscar").value.toLowerCase();
+  const fTipo = document.getElementById("bTipo").value;
+  const fDoc = document.getElementById("bDoc").value;
+  const fAcc = document.getElementById("bAccion").value;
+
+  const lista = lista0.filter(([id,e]) => {
+    if(fTipo && e.tipo !== fTipo) return false;
+    if(fDoc && e.docId !== fDoc) return false;
+    if(fAcc && e.accionEstado !== fAcc) return false;
+    if(fBuscar){
+      const t = `${e.titulo||""} ${e.que||""} ${e.causa||""} ${e.leccion||""} ${e.accion||""} ${e.zona||""}`.toLowerCase();
+      if(!t.includes(fBuscar)) return false;
+    }
+    return true;
+  }).sort((a,b) => {
+    const fa = a[1].fecha || "", fb = b[1].fecha || "";
+    if(fa !== fb) return fb.localeCompare(fa);
+    return (b[1].creadoEn||"").localeCompare(a[1].creadoEn||"");
+  });
+
+  const cont = document.getElementById("evList");
+  const vacio = document.getElementById("evEmpty");
+  cont.innerHTML = "";
+
+  if(total === 0){
+    vacio.style.display = "block";
+    vacio.innerHTML = `Todavía no hay eventos en la bitácora.<br>Cargá el primero con "Nuevo evento", o probá con dos ejemplos para ver cómo se ve.<br><button class="btn-ghost" onclick="cargarEjemplos()">Cargar 2 ejemplos</button>`;
+    return;
+  }
+  vacio.style.display = lista.length ? "none" : "block";
+  if(!lista.length){ vacio.textContent = "No se encontraron eventos con esos filtros."; return; }
+
+  lista.forEach(([id,e]) => {
+    const dn = docNombre(e);
+    const accClass = "acc-" + (e.accionEstado||"").replace(/\s/g,"");
+    const card = document.createElement("div");
+    card.className = "ev-card";
+    card.innerHTML = `
+      <div class="ev-head">
+        <span class="tipo-tag">${esc(e.tipo||"Otro")}</span>
+        <span class="ev-fecha"><i class="ti ti-calendar"></i> ${esc(e.fecha||"Sin fecha")}</span>
+        ${e.practica ? `<span class="pill-practica"><i class="ti ti-target"></i> Caso de práctica</span>` : ""}
+      </div>
+      <h3>${esc(e.titulo||"(sin título)")}</h3>
+      <div class="meta">
+        ${e.rol ? `<span><i class="ti ti-user"></i> ${esc(e.rol)}</span>` : ""}
+        ${e.zona ? `<span><i class="ti ti-map-pin"></i> ${esc(e.zona)}</span>` : ""}
+        ${dn.titulo ? `<span class="chip" onclick="verEventosDe('${esc(e.docId||"")}')"><i class="ti ti-file-text"></i> ${esc(dn.titulo)}${dn.codigo ? " · "+esc(dn.codigo) : ""}</span>` : ""}
+      </div>
+      ${e.que ? `<div class="ev-sec"><div class="ev-lbl">Qué pasó</div><p>${esc(e.que)}</p></div>` : ""}
+      ${e.causa ? `<div class="ev-sec"><div class="ev-lbl">Causa o hallazgo</div><p>${esc(e.causa)}</p></div>` : ""}
+      ${e.leccion ? `<div class="ev-sec ev-leccion"><div class="ev-lbl">Lección aprendida</div><p>${esc(e.leccion)}</p></div>` : ""}
+      ${(e.accion || e.accionTipo) ? `<div class="ev-sec"><div class="ev-lbl">Acción de mejora</div>
+        <div class="ev-accion">
+          ${e.accionTipo ? `<span class="chip" style="cursor:default;">${esc(e.accionTipo)}</span>` : ""}
+          ${e.accionEstado ? `<span class="acc-pill ${accClass}">${esc(e.accionEstado)}</span>` : ""}
+          ${e.resp ? `<span style="font-size:12px;color:var(--texto-suave);">Responsable: ${esc(e.resp)}</span>` : ""}
+        </div>
+        ${e.accion ? `<p style="margin-top:6px;">${esc(e.accion)}</p>` : ""}</div>` : ""}
+      <div class="actions">
+        <button onclick="abrirEvt('${id}')"><i class="ti ti-edit"></i> Editar</button>
+        <button class="del" onclick="eliminarEvt('${id}')"><i class="ti ti-trash"></i> Eliminar</button>
+      </div>`;
+    cont.appendChild(card);
+  });
+}
+
+["bBuscar","bTipo","bDoc","bAccion"].forEach(id => {
+  document.getElementById(id).addEventListener("input", renderBit);
+  document.getElementById(id).addEventListener("change", renderBit);
+});
+
+/* ---------- Alta / edición / baja de eventos ---------- */
+const evtOverlay = document.getElementById("evtOverlay");
+document.getElementById("newEvtBtn").addEventListener("click", () => abrirEvt());
+document.getElementById("cancelEvt").addEventListener("click", () => evtOverlay.style.display = "none");
+
+function opcionesSel(id, valores, actual){
+  const sel = document.getElementById(id);
+  sel.innerHTML = valores.map(v => `<option value="${esc(v)}">${esc(v)}</option>`).join("");
+  sel.value = actual || valores[0];
+}
+
+function abrirEvt(id){
+  const e = id ? (eventos[id] || {}) : {};
+  document.getElementById("evtModalTitle").textContent = id ? "Editar evento" : "Nuevo evento";
+  document.getElementById("eId").value = id || "";
+  document.getElementById("eFecha").value = e.fecha || new Date().toISOString().slice(0,10);
+  opcionesSel("eTipo", TIPOS_EVT, e.tipo);
+  document.getElementById("eTitulo").value = e.titulo || "";
+  const selDoc = document.getElementById("eDoc");
+  const docsOrden = Object.entries(documentos).sort((a,b) => (a[1].titulo||"").localeCompare(b[1].titulo||""));
+  selDoc.innerHTML = `<option value="">— Ninguno —</option>` +
+    docsOrden.map(([did,d]) => `<option value="${esc(did)}">${esc(d.titulo||"(sin título)")}${d.codigo ? " ("+esc(d.codigo)+")" : ""}</option>`).join("");
+  selDoc.value = e.docId || "";
+  opcionesSel("eRol", ROLES_EVT, e.rol);
+  document.getElementById("eZona").value = e.zona || "";
+  document.getElementById("eQue").value = e.que || "";
+  document.getElementById("eCausa").value = e.causa || "";
+  document.getElementById("eLeccion").value = e.leccion || "";
+  opcionesSel("eAccionTipo", ACCION_TIPOS, e.accionTipo);
+  opcionesSel("eAccionEstado", ACCION_ESTADOS, e.accionEstado);
+  document.getElementById("eAccion").value = e.accion || "";
+  document.getElementById("eResp").value = e.resp || "";
+  document.getElementById("ePractica").checked = !!e.practica;
+  evtOverlay.style.display = "flex";
+}
+
+function eliminarEvt(id){
+  if(confirm("¿Eliminar este evento de la bitácora? No se puede deshacer.")){
+    db.ref(NODO_BIT + "/" + id).remove();
+  }
+}
+
+document.getElementById("saveEvt").addEventListener("click", () => {
+  const id = document.getElementById("eId").value;
+  const titulo = document.getElementById("eTitulo").value.trim();
+  if(!titulo){ alert("El título es obligatorio."); return; }
+  const docId = document.getElementById("eDoc").value;
+  const d = docId ? documentos[docId] : null;
+  const previo = id ? (eventos[id] || {}) : {};
+  const data = {
+    fecha: document.getElementById("eFecha").value,
+    tipo: document.getElementById("eTipo").value,
+    titulo,
+    docId: docId || "",
+    docTitulo: d ? (d.titulo || "") : "",
+    docCodigo: d ? (d.codigo || "") : "",
+    rol: document.getElementById("eRol").value,
+    zona: document.getElementById("eZona").value.trim(),
+    que: document.getElementById("eQue").value.trim(),
+    causa: document.getElementById("eCausa").value.trim(),
+    leccion: document.getElementById("eLeccion").value.trim(),
+    accionTipo: document.getElementById("eAccionTipo").value,
+    accionEstado: document.getElementById("eAccionEstado").value,
+    accion: document.getElementById("eAccion").value.trim(),
+    resp: document.getElementById("eResp").value.trim(),
+    practica: document.getElementById("ePractica").checked,
+    creadoPor: previo.creadoPor || (currentUser ? currentUser.email : ""),
+    creadoEn: previo.creadoEn || new Date().toISOString(),
+    actualizadoPor: currentUser ? currentUser.email : "",
+    actualizadoEn: new Date().toISOString()
+  };
+  const ref = id ? db.ref(NODO_BIT + "/" + id) : db.ref(NODO_BIT).push();
+  ref.set(data).then(() => { evtOverlay.style.display = "none"; });
+});
+
+/* ---------- Ejemplos para ver cómo funciona ---------- */
+function cargarEjemplos(){
+  const quien = currentUser ? currentUser.email : "";
+  const ahora = new Date().toISOString();
+  const ej = {
+    evt_ejemplo_porta: {
+      fecha: "", tipo: "Reclamo",
+      titulo: "Cortes reiterados en SF6 de Cámara PORTA (ET Jardín)",
+      docId: "doc005", docTitulo: "Reporte Técnico SCADA PORTA EPEC", docCodigo: "",
+      rol: "Operador", zona: "ET Jardín, Barra 3 (TD3)",
+      que: "Un cliente industrial reclamó cortes de servicio reiterados que atribuía al interruptor SF6 de la Cámara PORTA. El análisis de los registros SCADA muestra eventos de ARRANQUE DE PROTECCIONES, algunos con apertura efectiva del interruptor. Informe INF-SCADA-2025-001, mayo 2025.",
+      causa: "Perturbaciones externas al equipo: fallas en distribuidores de la Barra 3, propagación desde la Barra 2 por el conjuntor 2-3 cerrado y maniobras de alta tensión de la concesionaria con fallas a tierra transitorias de 1 a 5 A.",
+      leccion: "ARRANQUE DE PROTECCIONES indica que se detectó una perturbación, no necesariamente una apertura del interruptor. Cruzar la hora del registro SCADA con la confirmación del capataz y la guardia permite asignar una causa raíz de forma objetiva.",
+      accionTipo: "Actualizar proceso", accionEstado: "Abierta",
+      accion: "Evaluar abrir el conjuntor 2-3 o aplicar selectividad lógica entre barras. Acordar con la concesionaria un aviso previo de maniobras en alta tensión. Revisar la sensibilidad del relé. Separar en SCADA las alertas de arranque y de apertura efectiva.",
+      resp: "Ingeniería de Red / COD", practica: true,
+      creadoPor: quien, creadoEn: ahora, actualizadoPor: quien, actualizadoEn: ahora
+    },
+    evt_ejemplo_jornada: {
+      fecha: "", tipo: "Jornada de revisión",
+      titulo: "Jornada con coordinadores: temario",
+      docId: "", docTitulo: "", docCodigo: "",
+      rol: "Coordinador", zona: "",
+      que: "Temario: respuesta de coordinadores a subjefes CCOD; criterios de gestión de reclamos (tiempo de restitución, seguimiento de asignación, asegurar la solución del reclamo); horas extras para cubrir el verano; capacitación y formación de operadores.",
+      causa: "", leccion: "",
+      accionTipo: "Sin definir", accionEstado: "Abierta",
+      accion: "Registrar acá las conclusiones y acuerdos de la jornada.",
+      resp: "", practica: false,
+      creadoPor: quien, creadoEn: ahora, actualizadoPor: quien, actualizadoEn: ahora
+    }
+  };
+  db.ref(NODO_BIT).update(ej);
+}
 </script>
 </body>
 </html>
