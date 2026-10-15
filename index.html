@@ -236,6 +236,43 @@
   .note{font-size:12px;color:var(--texto-suave);margin:-8px 0 14px;}
   .btn-ghost{background:#fff;border:1.5px solid var(--verde-primario);color:var(--verde-primario);padding:9px 16px;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;margin-top:12px;}
   .btn-ghost:hover{background:var(--gris-bg);}
+
+  /* ---- Cobertura ---- */
+  .cob-intro{font-size:13px;color:var(--texto-suave);margin-bottom:14px;}
+  .cob-capas{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:8px;align-items:stretch;margin-bottom:10px;}
+  .capa{background:#fff;border:1px solid var(--gris-borde);border-top:4px solid var(--verde-primario);border-radius:12px;padding:14px 16px;}
+  .capa .n{font-size:11px;font-weight:800;color:var(--verde-medio);letter-spacing:.5px;text-transform:uppercase;}
+  .capa h4{font-size:14px;color:var(--verde-oscuro);margin:2px 0 8px;}
+  .capa .big{font-size:22px;font-weight:800;color:var(--verde-oscuro);}
+  .capa .lin{font-size:12px;color:var(--texto-suave);margin-top:4px;}
+  .capa .lin b{color:var(--texto);}
+  .flecha{display:flex;align-items:center;color:var(--verde-medio);font-size:22px;}
+  .ciclo{background:rgba(33,133,112,.08);border:1px dashed var(--verde-primario);border-radius:10px;padding:9px 14px;font-size:12.5px;color:var(--verde-oscuro);margin-bottom:18px;display:flex;gap:8px;align-items:center;}
+  .est{display:inline-block;font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap;}
+  .est-cubierto{background:rgba(43,168,136,.15);color:var(--verde-oscuro);}
+  .est-dependencia{background:#FFF3CD;color:#8A6D00;}
+  .est-sin-cobertura{background:rgba(192,33,51,.1);color:var(--rojo);}
+  .est-sin-datos{background:rgba(0,0,0,.06);color:var(--texto-suave);}
+  .ctab{border:none;cursor:pointer;font-family:inherit;margin:2px 4px 0 0;}
+  .cob-tablewrap{overflow-x:auto;background:#fff;border:1px solid var(--gris-borde);border-radius:12px;}
+  table.cob{width:100%;border-collapse:collapse;font-size:13px;min-width:820px;}
+  table.cob th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--texto-suave);padding:10px 12px;border-bottom:1px solid var(--gris-borde);background:var(--gris-bg);}
+  table.cob td{padding:9px 12px;border-bottom:1px solid var(--gris-borde);vertical-align:middle;}
+  table.cob tr.grp td{background:rgba(33,133,112,.1);color:var(--verde-oscuro);font-weight:800;font-size:12px;}
+  table.cob tr.pr{cursor:pointer;}
+  table.cob tr.pr:hover td{background:var(--gris-bg);}
+  table.cob .pid{font-weight:700;color:var(--verde-oscuro);}
+  .mini{display:inline-block;width:60px;height:7px;background:var(--gris-borde);border-radius:4px;vertical-align:middle;margin-left:6px;overflow:hidden;}
+  .mini i{display:block;height:100%;background:var(--verde-medio);}
+  .up{color:var(--verde-oscuro);font-weight:700;} .down{color:var(--rojo);font-weight:700;}
+  .shy{font-size:10px;font-weight:800;background:var(--rojo);color:#fff;padding:1px 6px;border-radius:10px;margin-left:6px;}
+  .linkbtn{background:none;border:none;color:var(--verde-primario);font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;padding:0;}
+  .prior-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid var(--gris-borde);font-size:13px;}
+  .prior-row:last-child{border-bottom:none;}
+  tr.det td{background:#FAFCFB;font-size:12px;color:var(--texto-suave);}
+  .cob-filters{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px;}
+  .cob-filters select{padding:9px 10px;border:1.5px solid var(--gris-borde);border-radius:8px;font-size:13px;font-family:inherit;}
+  @media (max-width:820px){.cob-capas{grid-template-columns:1fr;}.flecha{justify-content:center;transform:rotate(90deg);}}
 </style>
 </head>
 <body>
@@ -280,6 +317,7 @@
   <nav class="maintabs">
     <button class="maintab active" id="tabDocs" onclick="cambiarVista('docs')"><i class="ti ti-books"></i> Documentos</button>
     <button class="maintab" id="tabBit" onclick="cambiarVista('bit')"><i class="ti ti-notebook"></i> Bitácora <span class="tabcount" id="tabBitCount"></span></button>
+    <button class="maintab" id="tabCob" onclick="cambiarVista('cob')"><i class="ti ti-chart-dots-3"></i> Cobertura</button>
   </nav>
 
   <main>
@@ -327,11 +365,30 @@
           <select id="bTipo"><option value="">Todos los tipos</option></select>
           <select id="bDoc"><option value="">Todos los documentos</option></select>
           <select id="bAccion"><option value="">Todos los estados de acción</option></select>
+          <select id="bProc"><option value="">Todos los procesos de la Matriz</option></select>
         </div>
         <button id="newEvtBtn"><i class="ti ti-plus"></i> Nuevo evento</button>
       </div>
       <div class="evlist" id="evList"></div>
       <div class="empty" id="evEmpty" style="display:none;"></div>
+    </div>
+
+    <div id="viewCob" style="display:none;">
+      <div class="cob-intro" id="cobIntro"></div>
+      <div id="cobCapas"></div>
+      <div class="panel" id="cobPrior"></div>
+      <div class="cob-filters">
+        <select id="cEstado">
+          <option value="">Todos los estados</option>
+          <option value="cubierto">Cubierto (2 o más capacitados)</option>
+          <option value="dependencia">Depende de 1 persona</option>
+          <option value="sin-cobertura">Sin capacitados</option>
+          <option value="sin-datos">Sin evaluar</option>
+        </select>
+        <label class="chk"><input type="checkbox" id="cSoloEv"> Solo procesos con eventos</label>
+      </div>
+      <div class="cob-tablewrap" id="cobTabla"></div>
+      <div class="hint" id="cobHint" style="margin-top:14px;"></div>
     </div>
   </main>
 </div>
@@ -367,7 +424,7 @@
       </div>
     </div>
     <div class="row2">
-      <div class="field"><label>Código de proceso</label><input type="text" id="fCodigo" placeholder="P-JTMT-02"></div>
+      <div class="field"><label>Código de proceso</label><input type="text" id="fCodigo" placeholder="P-JTMT-02 (si cubre varios, separalos con coma)"></div>
       <div class="field"><label>Versión</label><input type="text" id="fVersion" placeholder="v2 final"></div>
     </div>
     <div class="row2">
@@ -403,6 +460,8 @@
     </div>
     <div class="field"><label>Título corto</label><input type="text" id="eTitulo" placeholder="Ej: Cortes reiterados en Cámara PORTA"></div>
     <div class="field"><label>Proceso o manual relacionado</label><select id="eDoc"></select></div>
+    <div class="field"><label>Proceso de la Matriz de Competencias (opcional)</label><select id="eProc"></select></div>
+    <div class="note">Sirve para cruzar el evento con quiénes están capacitados en ese proceso (pestaña Cobertura).</div>
     <div class="row2">
       <div class="field"><label>Rol que intervino</label><select id="eRol"></select></div>
       <div class="field"><label>Zona o instalación</label><input type="text" id="eZona" placeholder="Ej: ET Jardín, Barra 3"></div>
@@ -496,6 +555,7 @@ auth.onAuthStateChanged(user => {
   } else {
     document.getElementById("loginScreen").style.display = "flex";
     document.getElementById("app").style.display = "none";
+    limpiarCob();
     document.getElementById("loginEmail").value = "";
     document.getElementById("loginPassword").value = "";
   }
@@ -504,12 +564,14 @@ auth.onAuthStateChanged(user => {
 /* ---------- CARGA Y RENDER ---------- */
 function cargarDocumentos(){
   cargarBitacora();
+  cargarEvaluaciones();
   db.ref(NODO).off();
   db.ref(NODO).on("value", snap => {
     documentos = snap.val() || {};
     poblarFiltros();
     render();
     renderBit();
+    renderCob();
   }, err => {
     document.getElementById("grid").innerHTML =
       `<div class="empty" style="grid-column:1/-1;">No se pudo leer el catálogo (${err.message}). Verificá las reglas de seguridad en Firebase.</div>`;
@@ -673,12 +735,13 @@ const ACCION_TIPOS = ["Sin definir","Actualizar proceso","Actualizar manual","Ca
 const ACCION_ESTADOS = ["Abierta","En curso","Cerrada"];
 
 function cambiarVista(v){
-  const bit = v === "bit";
-  document.getElementById("viewDocs").style.display = bit ? "none" : "block";
-  document.getElementById("viewBit").style.display = bit ? "block" : "none";
-  document.getElementById("tabDocs").classList.toggle("active", !bit);
-  document.getElementById("tabBit").classList.toggle("active", bit);
-  if(bit) renderBit();
+  ["docs","bit","cob"].forEach(k => {
+    const cap = k.charAt(0).toUpperCase() + k.slice(1);
+    document.getElementById("view" + cap).style.display = (k === v) ? "block" : "none";
+    document.getElementById("tab" + cap).classList.toggle("active", k === v);
+  });
+  if(v === "bit") renderBit();
+  if(v === "cob") renderCob();
 }
 
 function cargarBitacora(){
@@ -687,6 +750,7 @@ function cargarBitacora(){
     eventos = snap.val() || {};
     renderBit();
     render();
+    renderCob();
   }, err => {
     document.getElementById("evList").innerHTML =
       `<div class="empty">No se pudo leer la bitácora (${esc(err.message)}). Verificá las reglas de seguridad en Firebase.</div>`;
@@ -702,6 +766,7 @@ function verEventosDe(docId){
   document.getElementById("bBuscar").value = "";
   document.getElementById("bTipo").value = "";
   document.getElementById("bAccion").value = "";
+  document.getElementById("bProc").value = "";
   document.getElementById("bDoc").value = docId;
   renderBit();
   window.scrollTo({top:0, behavior:"smooth"});
@@ -735,6 +800,7 @@ function renderBit(){
   llenarSel("bAccion", ACCION_ESTADOS, "Todos los estados de acción");
   const docsOrden = Object.entries(documentos).sort((a,b) => (a[1].titulo||"").localeCompare(b[1].titulo||""));
   llenarSel("bDoc", null, "Todos los documentos", docsOrden.map(([id,d]) => [id, d.titulo || "(sin título)"]));
+  llenarSel("bProc", null, "Todos los procesos de la Matriz", PROCESOS.map(p => [p.id, p.id + " · " + p.n]));
 
   const total = lista0.length;
   const pendientes = lista0.filter(([id,e]) => e.accionEstado !== "Cerrada" && e.accionTipo !== "Sin cambios").length;
@@ -763,11 +829,13 @@ function renderBit(){
   const fTipo = document.getElementById("bTipo").value;
   const fDoc = document.getElementById("bDoc").value;
   const fAcc = document.getElementById("bAccion").value;
+  const fProc = document.getElementById("bProc").value;
 
   const lista = lista0.filter(([id,e]) => {
     if(fTipo && e.tipo !== fTipo) return false;
     if(fDoc && e.docId !== fDoc) return false;
     if(fAcc && e.accionEstado !== fAcc) return false;
+    if(fProc && !procsDeEvento(e).includes(fProc)) return false;
     if(fBuscar){
       const t = `${e.titulo||""} ${e.que||""} ${e.causa||""} ${e.leccion||""} ${e.accion||""} ${e.zona||""}`.toLowerCase();
       if(!t.includes(fBuscar)) return false;
@@ -806,6 +874,7 @@ function renderBit(){
       <div class="meta">
         ${e.rol ? `<span><i class="ti ti-user"></i> ${esc(e.rol)}</span>` : ""}
         ${e.zona ? `<span><i class="ti ti-map-pin"></i> ${esc(e.zona)}</span>` : ""}
+        ${procsDeEvento(e).map(p => `<span class="chip" onclick="verEventosProc('${p}')"><i class="ti ti-target-arrow"></i> ${p}</span>`).join("")}
         ${dn.titulo ? `<span class="chip" onclick="verEventosDe('${esc(e.docId||"")}')"><i class="ti ti-file-text"></i> ${esc(dn.titulo)}${dn.codigo ? " · "+esc(dn.codigo) : ""}</span>` : ""}
       </div>
       ${e.que ? `<div class="ev-sec"><div class="ev-lbl">Qué pasó</div><p>${esc(e.que)}</p></div>` : ""}
@@ -826,7 +895,7 @@ function renderBit(){
   });
 }
 
-["bBuscar","bTipo","bDoc","bAccion"].forEach(id => {
+["bBuscar","bTipo","bDoc","bAccion","bProc"].forEach(id => {
   document.getElementById(id).addEventListener("input", renderBit);
   document.getElementById(id).addEventListener("change", renderBit);
 });
@@ -854,6 +923,9 @@ function abrirEvt(id){
   selDoc.innerHTML = `<option value="">— Ninguno —</option>` +
     docsOrden.map(([did,d]) => `<option value="${esc(did)}">${esc(d.titulo||"(sin título)")}${d.codigo ? " ("+esc(d.codigo)+")" : ""}</option>`).join("");
   selDoc.value = e.docId || "";
+  const selProc = document.getElementById("eProc");
+  selProc.innerHTML = `<option value="">— Ninguno (se deduce del código del documento) —</option>` + opcionesProcesos();
+  selProc.value = PROC_IDX[e.procId] ? e.procId : "";
   opcionesSel("eRol", ROLES_EVT, e.rol);
   document.getElementById("eZona").value = e.zona || "";
   document.getElementById("eQue").value = e.que || "";
@@ -887,6 +959,7 @@ document.getElementById("saveEvt").addEventListener("click", () => {
     docId: docId || "",
     docTitulo: d ? (d.titulo || "") : "",
     docCodigo: d ? (d.codigo || "") : "",
+    procId: document.getElementById("eProc").value || "",
     rol: document.getElementById("eRol").value,
     zona: document.getElementById("eZona").value.trim(),
     que: document.getElementById("eQue").value.trim(),
@@ -904,6 +977,274 @@ document.getElementById("saveEvt").addEventListener("click", () => {
   };
   const ref = id ? db.ref(NODO_BIT + "/" + id) : db.ref(NODO_BIT).push();
   ref.set(data).then(() => { evtOverlay.style.display = "none"; });
+});
+
+/* =====================================================================
+   COBERTURA: cruce Matriz de Competencias  <->  Bitácora
+   Capa 1 (qué debería pasar) = procesos | Capa 2 (quién puede) = Matriz
+   Capa 3 (qué pasó) = eventos de la Bitácora
+   ===================================================================== */
+const NODO_IND = "cod_individual";            // nodo donde guarda la app Matriz
+const UMBRAL_COMPETENTE = 3;                  // puntaje 3 o 4 = capacitado
+const ROLES_COB = ["JCOD","SCOD","JTMT"];
+// OJO: esto solo oculta nombres en pantalla. La protección real son las reglas de Firebase.
+const CUENTAS_CON_NOMBRES = ["clucero@epec.com.ar","lucerocardarelli@gmail.com"];
+const GRUPOS = [
+  {k:"JCOD", t:"Jefe COD (P-JCOD)"},
+  {k:"SCOD", t:"SubJefe COD (P-SCOD)"},
+  {k:"JTMT", t:"Jefe de Turno MT (P-JTMT)"},
+  {k:"DUP",  t:"Procesos compartidos y expertiz (P-DUP / P-TEC)"}
+];
+// Debe coincidir con PROCS_TEC y PROCS_DUP de la Matriz. Si se agrega un proceso allá, agregarlo acá.
+const PROCESOS = [
+  ["P-JCOD-01","Gestión Marco Legal y Normativo","JCOD",0],["P-JCOD-02","Configuración MT/BT","JCOD",0],
+  ["P-JCOD-03","Gestión de Contratistas","JCOD",0],["P-JCOD-04","Gestión Presupuestaria","JCOD",0],
+  ["P-JCOD-05","Reporte de Gestión a Jefatura","JCOD",0],
+  ["P-SCOD-01","Gestión de Comunicaciones Operativas","SCOD",0],["P-SCOD-02","Gestión de Documentación Técnica","SCOD",0],
+  ["P-SCOD-03","Supervisión del Equipo Operativo","SCOD",0],
+  ["P-JTMT-01","Conducción Operativa del Turno MT","JTMT",0],["P-JTMT-02","Gestión de Maniobras y Restablecimiento","JTMT",0],
+  ["P-JTMT-03","Supervisión SHyMA en turno","JTMT",1],
+  ["P-DUP-01","Planes de mantenimiento MT/CRD","DUP",0],["P-DUP-02","Relevamiento de redes y aparamenta","DUP",0],
+  ["P-DUP-03","Reclamos técnicos emergentes","DUP",0],["P-DUP-04","Coordinación COD-CTZ-Teleoperación","DUP",0],
+  ["P-DUP-05","Provisión de equipos, EPP y herramientas","DUP",0],["P-DUP-06","Provisión de insumos y materiales","DUP",0],
+  ["P-DUP-07","Maniobras programadas","DUP",0],["P-DUP-08","Comités Técnicos y de Contingencias","DUP",0],
+  ["P-DUP-09","Capacitación del personal","DUP",0],["P-DUP-10","Cumplimiento SHyMA","DUP",1],
+  ["P-DUP-11","Procedimientos operativos","DUP",0],["P-DUP-12","Presupuesto anual del COD","DUP",0],
+  ["P-DUP-13","Indicadores de control y mejora","DUP",0],["P-DUP-14","Reporte de Gestión O&M","DUP",0],
+  ["P-DUP-15","Gestión administrativa de RRHH","DUP",0],
+  ["P-TEC-01","Expertiz técnica en red MT/BT","DUP",0],["P-TEC-02","Gestión de la seguridad operacional (SHyMA)","DUP",1]
+].map(a => ({id:a[0], n:a[1], g:a[2], shyma:!!a[3]}));
+const PROC_IDX = {}; PROCESOS.forEach(p => PROC_IDX[p.id] = p);
+
+let cobertura = null, evalError = "", cobAbiertos = {};
+
+function normNombre(x){
+  return String(x==null?"":x).normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/[^a-z0-9]+/g," ").trim();
+}
+function scoreValido(v){ const n = Number(v); return (v!==null && v!=="" && Number.isInteger(n) && n>=1 && n<=4) ? n : null; }
+function autorizadoNombres(){
+  return !!(currentUser && currentUser.email && CUENTAS_CON_NOMBRES.includes(currentUser.email.toLowerCase()));
+}
+
+/* Una persona = nombre normalizado + rol. Se toma su última evaluación y la anterior (para ver el cambio). */
+function calcularCobertura(raw, conNombres){
+  const grupos = {};
+  Object.values(raw || {}).forEach(r => {
+    if(!r || typeof r !== "object" || !ROLES_COB.includes(r.rol)) return;
+    const nn = normNombre(r.nom);
+    if(!nn) return;
+    (grupos[nn + "|" + r.rol] = grupos[nn + "|" + r.rol] || []).push(r);
+  });
+  let ultima = "";
+  const personas = Object.values(grupos).map(arr => {
+    arr.sort((a,b) => ((Number(a.ts)||0) - (Number(b.ts)||0)) || String(a.fecha||"").localeCompare(String(b.fecha||"")));
+    const l = arr[arr.length-1], p = arr.length > 1 ? arr[arr.length-2] : null;
+    if(String(l.fecha||"") > ultima) ultima = String(l.fecha||"");
+    return { nom: conNombres ? String(l.nom) : "", rol: l.rol,
+             last: (l.scoreTec && typeof l.scoreTec === "object") ? l.scoreTec : {},
+             prev: p ? ((p.scoreTec && typeof p.scoreTec === "object") ? p.scoreTec : {}) : null };
+  });
+  const roles = {JCOD:0,SCOD:0,JTMT:0};
+  personas.forEach(p => roles[p.rol]++);
+  const porProc = {};
+  PROCESOS.forEach(pr => {
+    const ambito = personas.filter(p => pr.g === "DUP" || p.rol === pr.g);
+    let n=0, cap=0, suma=0, shyBad=0, sa=0, sb=0, k=0;
+    const names = {cap:[], dev:[], ini:[]};
+    ambito.forEach(p => {
+      const v = scoreValido(p.last[pr.id]);
+      if(v !== null){
+        n++; suma += v;
+        if(v >= UMBRAL_COMPETENTE) cap++;
+        if(pr.shyma && v === 1) shyBad++;
+        if(conNombres) (v >= UMBRAL_COMPETENTE ? names.cap : names.dev).push(p.nom);
+      } else if(conNombres) names.ini.push(p.nom);
+      if(p.prev){
+        const a = v, b = scoreValido(p.prev[pr.id]);
+        if(a !== null && b !== null){ sa += a; sb += b; k++; }
+      }
+    });
+    let estado;
+    if(n === 0) estado = "sin-datos";
+    else if(cap === 0) estado = "sin-cobertura";
+    else if(cap === 1) estado = "dependencia";
+    else estado = "cubierto";
+    porProc[pr.id] = { N: ambito.length, n, cap, prom: n ? suma/n : null, shyBad,
+                       delta: k ? (sa - sb)/k : null, nDelta: k, estado, names };
+  });
+  return { evals: Object.keys(raw || {}).length, personas: personas.length, roles, ultima, porProc, conNombres: !!conNombres };
+}
+
+function cargarEvaluaciones(){
+  db.ref(NODO_IND).off();
+  db.ref(NODO_IND).on("value", snap => {
+    evalError = "";
+    cobertura = calcularCobertura(snap.val(), autorizadoNombres());   // no se guardan los registros crudos
+    renderCob();
+  }, err => { evalError = err.message; cobertura = null; renderCob(); });
+}
+function limpiarCob(){
+  try{ db.ref(NODO_IND).off(); }catch(e){}
+  cobertura = null; evalError = ""; cobAbiertos = {};
+}
+
+/* ---------- vínculo evento <-> proceso ---------- */
+function codigosDe(txt){ return String(txt||"").toUpperCase().match(/P-[A-Z]+-\d+/g) || []; }
+function procsDeEvento(e){
+  if(e && e.procId && PROC_IDX[e.procId]) return [e.procId];
+  const d = e && e.docId ? documentos[e.docId] : null;
+  const cods = codigosDe(d ? d.codigo : (e ? e.docCodigo : ""));
+  return [...new Set(cods.filter(c => PROC_IDX[c]))];
+}
+function esAccionAbierta(e){ return e.accionEstado !== "Cerrada" && e.accionTipo !== "Sin cambios"; }
+function opcionesProcesos(){
+  return GRUPOS.map(g => `<optgroup label="${esc(g.t)}">` +
+    PROCESOS.filter(p => p.g === g.k).map(p => `<option value="${p.id}">${p.id} · ${esc(p.n)}</option>`).join("") + `</optgroup>`).join("");
+}
+function verEventosProc(pid){
+  cambiarVista("bit");
+  ["bBuscar","bTipo","bDoc","bAccion"].forEach(i => document.getElementById(i).value = "");
+  document.getElementById("bProc").value = pid;
+  renderBit();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+/* ---------- render ---------- */
+const EST_TXT = {"cubierto":"Cubierto","dependencia":"Depende de 1 persona","sin-cobertura":"Sin capacitados","sin-datos":"Sin evaluar"};
+function fichasDe(pid){
+  return Object.entries(documentos).filter(([id,d]) => codigosDe(d.codigo).includes(pid));
+}
+function fmtFecha(f){
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(f||"");
+  return m ? `${m[3]}/${m[2]}/${m[1]}` : (f || "sin fecha");
+}
+
+function renderCob(){
+  const cont = document.getElementById("cobCapas");
+  if(!cont) return;
+  const intro = document.getElementById("cobIntro");
+  const tabla = document.getElementById("cobTabla");
+  const prior = document.getElementById("cobPrior");
+
+  // eventos por proceso
+  const evPor = {}, abPor = {};
+  let vinc = 0, conLec = 0, abiertas = 0, cerradasCiclo = 0;
+  const evs = Object.values(eventos);
+  evs.forEach(e => {
+    const ps = procsDeEvento(e);
+    if(ps.length) vinc++;
+    if(e.leccion) conLec++;
+    if(esAccionAbierta(e)) abiertas++;
+    if(e.accionEstado === "Cerrada" && ["Actualizar proceso","Actualizar manual","Capacitar"].includes(e.accionTipo)) cerradasCiclo++;
+    ps.forEach(p => { evPor[p] = (evPor[p]||0) + 1; if(esAccionAbierta(e)) abPor[p] = (abPor[p]||0) + 1; });
+  });
+
+  if(evalError){
+    intro.innerHTML = `<span style="color:var(--rojo);">No se pudieron leer las evaluaciones de la Matriz (${esc(evalError)}). Revisá las reglas de seguridad en Firebase: el nodo <b>${NODO_IND}</b> tiene que ser legible para cuentas con usuario y contraseña.</span>`;
+  } else if(!cobertura){
+    intro.textContent = "Cargando evaluaciones de la Matriz…";
+  } else if(cobertura.personas === 0){
+    intro.textContent = "Todavía no hay evaluaciones cargadas en la Matriz para JCOD, SCOD o JTMT.";
+  } else {
+    intro.innerHTML = `Basado en <b>${cobertura.personas}</b> persona${cobertura.personas!==1?"s":""} evaluada${cobertura.personas!==1?"s":""} (${cobertura.evals} registro${cobertura.evals!==1?"s":""}); se usa la <b>última evaluación</b> de cada una${cobertura.ultima ? " (más reciente: " + esc(fmtFecha(cobertura.ultima)) + ")" : ""}. Se considera <b>capacitado</b> con puntaje ${UMBRAL_COMPETENTE} o más. Se actualiza solo cuando se carga una evaluación nueva en la Matriz.`;
+  }
+
+  const cnt = {cubierto:0,dependencia:0,"sin-cobertura":0,"sin-datos":0};
+  PROCESOS.forEach(p => { const st = cobertura ? cobertura.porProc[p.id].estado : "sin-datos"; cnt[st]++; });
+  const conFicha = PROCESOS.filter(p => fichasDe(p.id).length).length;
+  const chips = ["cubierto","dependencia","sin-cobertura","sin-datos"].map(k =>
+    `<button class="est est-${k} ctab" onclick="filtrarEstado('${k}')">${cnt[k]} ${EST_TXT[k].toLowerCase()}</button>`).join("");
+  const r = cobertura ? cobertura.roles : {JCOD:0,SCOD:0,JTMT:0};
+
+  cont.innerHTML = `
+  <div class="cob-capas">
+    <div class="capa"><div class="n">Capa 1</div><h4>Lo que debería pasar</h4>
+      <div class="big">${PROCESOS.length} procesos</div>
+      <div class="lin">P-JCOD, P-SCOD, P-JTMT, P-DUP y P-TEC</div>
+      <div class="lin"><b>${conFicha}</b> con ficha en el catálogo · <b>${Object.keys(documentos).length}</b> documentos</div></div>
+    <div class="flecha"><i class="ti ti-arrow-right"></i></div>
+    <div class="capa"><div class="n">Capa 2</div><h4>Quién puede hacerlo</h4>
+      <div class="big">${cobertura ? cobertura.personas : 0} personas</div>
+      <div class="lin">JCOD ${r.JCOD} · SCOD ${r.SCOD} · JTMT ${r.JTMT} (Matriz de Competencias)</div>
+      <div class="lin">${chips}</div></div>
+    <div class="flecha"><i class="ti ti-arrow-right"></i></div>
+    <div class="capa"><div class="n">Capa 3</div><h4>Lo que pasó</h4>
+      <div class="big">${evs.length} evento${evs.length!==1?"s":""}</div>
+      <div class="lin"><b>${vinc}</b> vinculados a un proceso · <b>${conLec}</b> con lección</div>
+      <div class="lin"><b>${abiertas}</b> acción${abiertas!==1?"es":""} abierta${abiertas!==1?"s":""}</div></div>
+  </div>
+  <div class="ciclo"><i class="ti ti-refresh"></i><span><b>El ciclo:</b> las lecciones de los eventos vuelven a la capa 1 (actualizar proceso o manual) y a la capa 2 (capacitar).
+    Acciones de ese tipo ya cerradas: <b>${cerradasCiclo}</b>. Pendientes: <b>${abiertas}</b>.</span></div>`;
+
+  // prioridades: procesos con eventos y sin cobertura plena
+  const sev = {"sin-cobertura":0,"sin-datos":1,"dependencia":2,"cubierto":9};
+  const pr = PROCESOS.map(p => ({p, st: cobertura ? cobertura.porProc[p.id].estado : "sin-datos", ev: evPor[p.id]||0}))
+    .filter(x => x.ev > 0 && x.st !== "cubierto")
+    .sort((a,b) => (sev[a.st]-sev[b.st]) || (b.ev-a.ev)).slice(0,8);
+  prior.innerHTML = `<h4><i class="ti ti-alert-triangle"></i> Dónde mirar primero</h4>` + (pr.length ?
+    pr.map(x => `<div class="prior-row"><b class="pid">${x.p.id}</b><span>${esc(x.p.n)}</span>
+      <span class="est est-${x.st}">${EST_TXT[x.st]}</span>
+      <button class="linkbtn" onclick="verEventosProc('${x.p.id}')">${x.ev} evento${x.ev!==1?"s":""} <i class="ti ti-arrow-right"></i></button></div>`).join("")
+    : `<div class="hint" style="margin:0;">Ningún proceso con eventos tiene hoy una cobertura débil. Cuando vincules eventos a procesos (campo “Proceso de la Matriz” en el evento, o el Código en la ficha del documento), acá aparecen los que más se repiten sin personas capacitadas.</div>`);
+
+  // tabla
+  const fEst = document.getElementById("cEstado").value;
+  const fEv = document.getElementById("cSoloEv").checked;
+  let h = `<table class="cob"><thead><tr><th>Proceso</th><th>Ficha</th><th>Capacitados</th><th>Prom.</th><th>Cambio</th><th>Estado</th><th>Eventos</th><th>Acc. abiertas</th></tr></thead><tbody>`;
+  let filas = 0;
+  GRUPOS.forEach(g => {
+    let hg = "";
+    PROCESOS.filter(p => p.g === g.k).forEach(p => {
+      const c = cobertura ? cobertura.porProc[p.id] : null;
+      const st = c ? c.estado : "sin-datos";
+      if(fEst && st !== fEst) return;
+      if(fEv && !evPor[p.id]) return;
+      filas++;
+      const fi = fichasDe(p.id);
+      const ficha = fi.length ? fi.map(([id,d]) => `<span title="${esc(d.titulo||"")}">✓ ${esc(d.estado||"Con ficha")}</span>`).join(", ") : `<span style="color:var(--texto-suave);">Sin ficha</span>`;
+      const pct = c && c.N ? Math.round(100 * c.cap / c.N) : 0;
+      let cambio = "—";
+      if(c && c.nDelta){
+        const d = c.delta;
+        cambio = Math.abs(d) < 0.05 ? "= igual" : (d > 0 ? `<span class="up">▲ +${d.toFixed(1)}</span>` : `<span class="down">▼ ${d.toFixed(1)}</span>`);
+      }
+      const shy = p.shyma ? `<span class="shy">SHyMA</span>` : "";
+      const noHab = c && c.shyBad ? ` <span class="down" title="Puntaje 1 en un proceso SHyMA = no habilitado">⛔ ${c.shyBad} no habilitado${c.shyBad!==1?"s":""}</span>` : "";
+      hg += `<tr class="pr" data-pid="${p.id}">
+        <td><span class="pid">${p.id}</span>${shy} <span>${esc(p.n)}</span>${noHab}</td>
+        <td>${ficha}</td>
+        <td>${c ? `${c.cap} de ${c.N}<span class="mini"><i style="width:${pct}%"></i></span>` : "—"}</td>
+        <td>${c && c.prom !== null ? c.prom.toFixed(1) : "—"}</td>
+        <td>${cambio}</td>
+        <td><span class="est est-${st}">${EST_TXT[st]}</span></td>
+        <td>${evPor[p.id] ? `<button class="linkbtn" data-ev="${p.id}">${evPor[p.id]} ver</button>` : "0"}</td>
+        <td>${abPor[p.id] || 0}</td></tr>`;
+      if(cobAbiertos[p.id]){
+        let det;
+        if(!c) det = "Sin datos.";
+        else if(!cobertura.conNombres) det = `Capacitados: ${c.cap} · en desarrollo: ${c.n - c.cap} · sin evaluar: ${c.N - c.n}. <i>El detalle por nombre solo lo ve la cuenta autorizada.</i>`;
+        else det = `<b>Capacitados:</b> ${c.names.cap.map(esc).join(", ") || "—"}<br><b>En desarrollo:</b> ${c.names.dev.map(esc).join(", ") || "—"}<br><b>Sin evaluar:</b> ${c.names.ini.map(esc).join(", ") || "—"}`;
+        hg += `<tr class="det"><td colspan="8">${det}</td></tr>`;
+      }
+    });
+    if(hg) h += `<tr class="grp"><td colspan="8">${esc(g.t)}</td></tr>` + hg;
+  });
+  h += `</tbody></table>`;
+  tabla.innerHTML = filas ? h : `<div class="empty">No hay procesos para ese filtro.</div>`;
+
+  document.getElementById("cobHint").innerHTML =
+    `Cómo se vincula: al cargar un evento elegí el <b>Proceso de la Matriz</b>, o completá el <b>Código</b> (ej. P-JTMT-02) en la ficha del documento. ` +
+    `Si se agrega un proceso nuevo en la Matriz, hay que agregarlo también en la lista <code>PROCESOS</code> de esta página.`;
+}
+
+function filtrarEstado(k){ document.getElementById("cEstado").value = k; renderCob(); }
+document.getElementById("cEstado").addEventListener("change", renderCob);
+document.getElementById("cSoloEv").addEventListener("change", renderCob);
+document.getElementById("cobTabla").addEventListener("click", ev => {
+  const b = ev.target.closest("[data-ev]");
+  if(b){ verEventosProc(b.getAttribute("data-ev")); return; }
+  const tr = ev.target.closest("tr.pr");
+  if(tr){ const id = tr.getAttribute("data-pid"); cobAbiertos[id] = !cobAbiertos[id]; renderCob(); }
 });
 
 /* ---------- Ejemplos para ver cómo funciona ---------- */
