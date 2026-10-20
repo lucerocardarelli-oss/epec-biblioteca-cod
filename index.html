@@ -273,6 +273,54 @@
   .cob-filters{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px;}
   .cob-filters select{padding:9px 10px;border:1.5px solid var(--gris-borde);border-radius:8px;font-size:13px;font-family:inherit;}
   @media (max-width:820px){.cob-capas{grid-template-columns:1fr;}.flecha{justify-content:center;transform:rotate(90deg);}}
+
+  /* ---- v4: vencimientos, procesos, simulador ---- */
+  .aviso{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:#FFF3CD;border:1px solid #F0DC9A;color:#6E5600;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13px;}
+  .aviso.rojo{background:#FDEEEF;border-color:#F5C6CB;color:var(--rojo);}
+  .rev-venc{color:var(--rojo);font-weight:700;font-size:12px;}
+  .rev-prox{color:#8A6D00;font-weight:700;font-size:12px;}
+  .proc-rol{font-size:15px;color:var(--verde-oscuro);margin:22px 0 10px;}
+  .proc-h{font-size:14px;color:var(--verde-oscuro);margin:16px 0 8px;}
+  table.raci td{text-align:center;font-size:12px;}
+  table.raci td:first-child{text-align:left;font-size:13px;}
+  td.r-ar{background:var(--verde-primario);color:#fff;font-weight:800;}
+  td.r-a{background:#FFE9A8;color:#6E5600;font-weight:800;}
+  td.r-r{background:rgba(43,168,136,.25);color:var(--verde-oscuro);font-weight:800;}
+  td.r-c{background:#DCEEFB;color:#1A5E8C;font-weight:700;}
+  td.r-i{background:rgba(0,0,0,.07);color:var(--texto-suave);font-weight:700;}
+  td.r-txt{font-size:11px;color:var(--texto-suave);}
+  .sim-head{display:flex;gap:12px;align-items:center;flex-wrap:wrap;font-size:13px;color:var(--texto-suave);margin-bottom:8px;}
+  .sim-bar{height:6px;background:var(--gris-borde);border-radius:4px;overflow:hidden;margin-bottom:14px;}
+  .sim-bar i{display:block;height:100%;background:var(--verde-medio);}
+  .sim-situ{background:var(--gris-bg);border-left:3px solid var(--verde-medio);padding:10px 12px;border-radius:6px;font-size:13.5px;margin-bottom:12px;}
+  .sim-preg{font-size:16px;color:var(--verde-oscuro);margin-bottom:12px;line-height:1.4;}
+  .sim-op{display:block;width:100%;text-align:left;padding:12px 14px;border:1.5px solid var(--gris-borde);border-radius:10px;background:#fff;margin-bottom:8px;font:inherit;font-size:14px;cursor:pointer;color:var(--texto);}
+  .sim-op:hover:not([disabled]){border-color:var(--verde-primario);}
+  .sim-op.sel{border-color:var(--verde-primario);background:rgba(33,133,112,.08);}
+  .sim-op.ok{border-color:var(--verde-medio);background:rgba(43,168,136,.15);}
+  .sim-op.bad{border-color:var(--rojo);background:#FDEEEF;}
+  .sim-op[disabled]{cursor:default;}
+  ol.sim-ord{list-style:decimal;padding-left:26px;display:flex;flex-direction:column;gap:8px;}
+  ol.sim-ord li{padding:9px 12px;border:1.5px solid var(--gris-borde);border-radius:10px;background:#fff;font-size:13.5px;display:list-item;}
+  ol.sim-ord li span:first-child{display:inline;}
+  ol.sim-ord li.ok{border-color:var(--verde-medio);background:rgba(43,168,136,.15);}
+  ol.sim-ord li.bad{border-color:var(--rojo);background:#FDEEEF;}
+  .sim-mv{float:right;display:inline-flex;gap:4px;margin-left:8px;}
+  .sim-mv button{border:1px solid var(--gris-borde);background:#fff;border-radius:6px;cursor:pointer;width:30px;height:28px;color:var(--verde-primario);}
+  .sim-mv button[disabled]{opacity:.35;cursor:default;}
+  .sim-fb{margin-top:10px;padding:10px 12px;border-radius:8px;font-size:13.5px;}
+  .sim-fb.ok{background:rgba(43,168,136,.15);color:var(--verde-oscuro);}
+  .sim-fb.bad{background:#FDEEEF;color:#7A1520;}
+  .sim-fb ol{margin:6px 0 0 20px;}
+  .sim-ref{margin-top:10px;padding:10px 12px;background:var(--gris-bg);border-radius:8px;font-size:12.5px;color:var(--texto-suave);}
+  .sim-score{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap;}
+  .sim-score .big{font-size:30px;font-weight:800;color:var(--verde-oscuro);}
+  .maintabs{overflow-x:auto;scrollbar-width:thin;}
+  .maintab{white-space:nowrap;flex:0 0 auto;}
+  .toolbar{flex-wrap:wrap;}
+  .filters{min-width:0;}
+  .filters input[type=text], .filters select{max-width:100%;}
+  @media (max-width:600px){.maintabs{padding:0 10px;}.maintab{padding:12px 11px;font-size:13px;}.filters input[type=text]{min-width:0;}}
 </style>
 </head>
 <body>
@@ -318,11 +366,14 @@
     <button class="maintab active" id="tabDocs" onclick="cambiarVista('docs')"><i class="ti ti-books"></i> Documentos</button>
     <button class="maintab" id="tabBit" onclick="cambiarVista('bit')"><i class="ti ti-notebook"></i> Bitácora <span class="tabcount" id="tabBitCount"></span></button>
     <button class="maintab" id="tabCob" onclick="cambiarVista('cob')"><i class="ti ti-chart-dots-3"></i> Cobertura</button>
+    <button class="maintab" id="tabProc" onclick="cambiarVista('proc')"><i class="ti ti-sitemap"></i> Procesos</button>
+    <button class="maintab" id="tabSim" onclick="cambiarVista('sim')"><i class="ti ti-target-arrow"></i> Simulador</button>
   </nav>
 
   <main>
     <div id="viewDocs">
     <div class="stats" id="stats"></div>
+    <div class="aviso" id="docAviso" style="display:none;"></div>
 
     <div class="toolbar">
       <div class="filters">
@@ -330,6 +381,7 @@
         <select id="fTipo"><option value="">Todos los tipos</option></select>
         <select id="fRol"><option value="">Todos los roles</option></select>
         <select id="fEstado"><option value="">Todos los estados</option></select>
+        <label class="chk" style="margin:0;"><input type="checkbox" id="fSoloVenc"> Solo con revisión pendiente</label>
       </div>
       <button id="newDocBtn"><i class="ti ti-plus"></i> Nuevo documento</button>
     </div>
@@ -358,6 +410,7 @@
 
     <div id="viewBit" style="display:none;">
       <div class="stats" id="bitStats"></div>
+      <div class="aviso" id="bitAviso" style="display:none;"></div>
       <div class="panel" id="bitTop"></div>
       <div class="toolbar">
         <div class="filters">
@@ -365,7 +418,8 @@
           <select id="bTipo"><option value="">Todos los tipos</option></select>
           <select id="bDoc"><option value="">Todos los documentos</option></select>
           <select id="bAccion"><option value="">Todos los estados de acción</option></select>
-          <select id="bProc"><option value="">Todos los procesos de la Matriz</option></select>
+          <select id="bProc"><option value="">Todos los procesos</option></select>
+          <label class="chk" style="margin:0;"><input type="checkbox" id="bAtras"> Solo acciones atrasadas</label>
         </div>
         <button id="newEvtBtn"><i class="ti ti-plus"></i> Nuevo evento</button>
       </div>
@@ -390,7 +444,30 @@
       <div class="cob-tablewrap" id="cobTabla"></div>
       <div class="hint" id="cobHint" style="margin-top:14px;"></div>
     </div>
+
+    <div id="viewProc" style="display:none;">
+      <div class="cob-intro">Procesos del CCOD según el <b>Manual de Procesos v1.2</b> (13/10/2026, en validación): propósito, secuencia, puntos de control y quién ejecuta, aprueba, es consultado o informado en cada actividad (RACI). Cada ficha muestra los documentos, eventos y preguntas de práctica que se relacionan con ese proceso.</div>
+      <div class="toolbar">
+        <div class="filters">
+          <input type="text" id="pBuscar" placeholder="Buscar proceso por nombre o código...">
+          <select id="pRol"></select>
+        </div>
+      </div>
+      <div id="procGrid"></div>
+    </div>
+
+    <div id="viewSim" style="display:none;">
+      <div id="simBody"></div>
+    </div>
   </main>
+</div>
+
+<!-- ===================== MODAL PROCESO ===================== -->
+<div class="modal-overlay" id="procOverlay">
+  <div class="modal wide" style="max-height:90vh;overflow:auto;">
+    <div id="procModalBody"></div>
+    <div class="modal-actions"><button class="btn-secondary" id="closeProc">Cerrar</button></div>
+  </div>
 </div>
 
 <!-- ===================== MODAL DOCUMENTO ===================== -->
@@ -439,6 +516,7 @@
       </div>
       <div class="field"><label>Fecha última actualización</label><input type="date" id="fFecha"></div>
     </div>
+    <div class="field"><label>Próxima revisión (opcional)</label><input type="date" id="fProxRev"></div>
     <div class="field"><label>Enlace (Google Drive)</label><input type="text" id="fEnlace" placeholder="https://drive.google.com/..."></div>
     <div class="field"><label>Descripción breve</label><textarea id="fDescripcion"></textarea></div>
     <div class="modal-actions">
@@ -460,7 +538,7 @@
     </div>
     <div class="field"><label>Título corto</label><input type="text" id="eTitulo" placeholder="Ej: Cortes reiterados en Cámara PORTA"></div>
     <div class="field"><label>Proceso o manual relacionado</label><select id="eDoc"></select></div>
-    <div class="field"><label>Proceso de la Matriz de Competencias (opcional)</label><select id="eProc"></select></div>
+    <div class="field"><label>Proceso relacionado (Manual de Procesos o Matriz, opcional)</label><select id="eProc"></select></div>
     <div class="note">Sirve para cruzar el evento con quiénes están capacitados en ese proceso (pestaña Cobertura).</div>
     <div class="row2">
       <div class="field"><label>Rol que intervino</label><select id="eRol"></select></div>
@@ -474,7 +552,10 @@
       <div class="field"><label>Estado de la acción</label><select id="eAccionEstado"></select></div>
     </div>
     <div class="field"><label>Acción de mejora</label><textarea id="eAccion"></textarea></div>
-    <div class="field"><label>Responsable (cargo o área)</label><input type="text" id="eResp"></div>
+    <div class="row2">
+      <div class="field"><label>Responsable (cargo o área)</label><input type="text" id="eResp"></div>
+      <div class="field"><label>Fecha límite de la acción</label><input type="date" id="eLimite"></div>
+    </div>
     <label class="chk"><input type="checkbox" id="ePractica"> Sirve como caso de práctica para el simulador</label>
     <div class="modal-actions">
       <button class="btn-secondary" id="cancelEvt">Cancelar</button>
@@ -565,6 +646,7 @@ auth.onAuthStateChanged(user => {
 function cargarDocumentos(){
   cargarBitacora();
   cargarEvaluaciones();
+  cargarSimulaciones();
   db.ref(NODO).off();
   db.ref(NODO).on("value", snap => {
     documentos = snap.val() || {};
@@ -572,6 +654,8 @@ function cargarDocumentos(){
     render();
     renderBit();
     renderCob();
+    renderAvisos();
+    renderProc();
   }, err => {
     document.getElementById("grid").innerHTML =
       `<div class="empty" style="grid-column:1/-1;">No se pudo leer el catálogo (${err.message}). Verificá las reglas de seguridad en Firebase.</div>`;
@@ -617,6 +701,7 @@ function render(){
     if(fTipo && d.tipo !== fTipo) return false;
     if(fRol && d.rol !== fRol) return false;
     if(fEstado && d.estado !== fEstado) return false;
+    if(document.getElementById("fSoloVenc").checked && !estadoRevision(d)) return false;
     if(buscar){
       const texto = `${d.titulo||""} ${d.codigo||""} ${d.descripcion||""}`.toLowerCase();
       if(!texto.includes(buscar)) return false;
@@ -644,6 +729,7 @@ function render(){
         ${d.codigo ? `<span><i class="ti ti-hash"></i> ${esc(d.codigo)}</span>` : ""}
         ${d.version ? `<span><i class="ti ti-git-branch"></i> ${esc(d.version)}</span>` : ""}
         ${d.fecha ? `<span><i class="ti ti-calendar"></i> ${esc(d.fecha)}</span>` : ""}
+        ${chipRevision(d)}
       </div>
       <span class="estado-pill ${estadoClass}" style="align-self:flex-start;">${esc(d.estado||"-")}</span>
       ${d.descripcion ? `<p style="font-size:12.5px;color:#6B7280;">${esc(d.descripcion)}</p>` : ""}
@@ -690,6 +776,7 @@ function abrirModal(id){
   document.getElementById("fVersion").value = d.version || "";
   document.getElementById("fEstadoInput").value = d.estado || "Vigente";
   document.getElementById("fFecha").value = d.fecha || "";
+  document.getElementById("fProxRev").value = d.proxRevision || "";
   document.getElementById("fEnlace").value = d.enlace || "";
   document.getElementById("fDescripcion").value = d.descripcion || "";
   overlay.style.display = "flex";
@@ -716,6 +803,7 @@ document.getElementById("saveDoc").addEventListener("click", () => {
     version: document.getElementById("fVersion").value.trim(),
     estado: document.getElementById("fEstadoInput").value,
     fecha: document.getElementById("fFecha").value,
+    proxRevision: document.getElementById("fProxRev").value,
     enlace: document.getElementById("fEnlace").value.trim(),
     descripcion: document.getElementById("fDescripcion").value.trim(),
     actualizadoPor: currentUser ? currentUser.email : "",
@@ -735,13 +823,15 @@ const ACCION_TIPOS = ["Sin definir","Actualizar proceso","Actualizar manual","Ca
 const ACCION_ESTADOS = ["Abierta","En curso","Cerrada"];
 
 function cambiarVista(v){
-  ["docs","bit","cob"].forEach(k => {
+  ["docs","bit","cob","proc","sim"].forEach(k => {
     const cap = k.charAt(0).toUpperCase() + k.slice(1);
     document.getElementById("view" + cap).style.display = (k === v) ? "block" : "none";
     document.getElementById("tab" + cap).classList.toggle("active", k === v);
   });
   if(v === "bit") renderBit();
   if(v === "cob") renderCob();
+  if(v === "proc") renderProc();
+  if(v === "sim"){ simFase = (simFase === "run") ? "run" : (simFase === "fin" ? "fin" : "lista"); renderSim(); }
 }
 
 function cargarBitacora(){
@@ -751,6 +841,9 @@ function cargarBitacora(){
     renderBit();
     render();
     renderCob();
+    renderAvisos();
+    renderProc();
+    if(simFase === "lista") renderSim();
   }, err => {
     document.getElementById("evList").innerHTML =
       `<div class="empty">No se pudo leer la bitácora (${esc(err.message)}). Verificá las reglas de seguridad en Firebase.</div>`;
@@ -767,6 +860,7 @@ function verEventosDe(docId){
   document.getElementById("bTipo").value = "";
   document.getElementById("bAccion").value = "";
   document.getElementById("bProc").value = "";
+  document.getElementById("bAtras").checked = false;
   document.getElementById("bDoc").value = docId;
   renderBit();
   window.scrollTo({top:0, behavior:"smooth"});
@@ -800,7 +894,7 @@ function renderBit(){
   llenarSel("bAccion", ACCION_ESTADOS, "Todos los estados de acción");
   const docsOrden = Object.entries(documentos).sort((a,b) => (a[1].titulo||"").localeCompare(b[1].titulo||""));
   llenarSel("bDoc", null, "Todos los documentos", docsOrden.map(([id,d]) => [id, d.titulo || "(sin título)"]));
-  llenarSel("bProc", null, "Todos los procesos de la Matriz", PROCESOS.map(p => [p.id, p.id + " · " + p.n]));
+  llenarSel("bProc", null, "Todos los procesos", gruposProcEvt().reduce((a,g) => a.concat(g.l.map(x => [x[0], x[0] + " · " + x[1]])), []));
 
   const total = lista0.length;
   const pendientes = lista0.filter(([id,e]) => e.accionEstado !== "Cerrada" && e.accionTipo !== "Sin cambios").length;
@@ -836,6 +930,7 @@ function renderBit(){
     if(fDoc && e.docId !== fDoc) return false;
     if(fAcc && e.accionEstado !== fAcc) return false;
     if(fProc && !procsDeEvento(e).includes(fProc)) return false;
+    if(document.getElementById("bAtras").checked && !accionAtrasada(e)) return false;
     if(fBuscar){
       const t = `${e.titulo||""} ${e.que||""} ${e.causa||""} ${e.leccion||""} ${e.accion||""} ${e.zona||""}`.toLowerCase();
       if(!t.includes(fBuscar)) return false;
@@ -885,6 +980,7 @@ function renderBit(){
           ${e.accionTipo ? `<span class="chip" style="cursor:default;">${esc(e.accionTipo)}</span>` : ""}
           ${e.accionEstado ? `<span class="acc-pill ${accClass}">${esc(e.accionEstado)}</span>` : ""}
           ${e.resp ? `<span style="font-size:12px;color:var(--texto-suave);">Responsable: ${esc(e.resp)}</span>` : ""}
+          ${chipLimite(e)}
         </div>
         ${e.accion ? `<p style="margin-top:6px;">${esc(e.accion)}</p>` : ""}</div>` : ""}
       <div class="actions">
@@ -895,7 +991,7 @@ function renderBit(){
   });
 }
 
-["bBuscar","bTipo","bDoc","bAccion","bProc"].forEach(id => {
+["bBuscar","bTipo","bDoc","bAccion","bProc","bAtras"].forEach(id => {
   document.getElementById(id).addEventListener("input", renderBit);
   document.getElementById(id).addEventListener("change", renderBit);
 });
@@ -935,6 +1031,7 @@ function abrirEvt(id){
   opcionesSel("eAccionEstado", ACCION_ESTADOS, e.accionEstado);
   document.getElementById("eAccion").value = e.accion || "";
   document.getElementById("eResp").value = e.resp || "";
+  document.getElementById("eLimite").value = e.fechaLimite || "";
   document.getElementById("ePractica").checked = !!e.practica;
   evtOverlay.style.display = "flex";
 }
@@ -969,6 +1066,7 @@ document.getElementById("saveEvt").addEventListener("click", () => {
     accionEstado: document.getElementById("eAccionEstado").value,
     accion: document.getElementById("eAccion").value.trim(),
     resp: document.getElementById("eResp").value.trim(),
+    fechaLimite: document.getElementById("eLimite").value,
     practica: document.getElementById("ePractica").checked,
     creadoPor: previo.creadoPor || (currentUser ? currentUser.email : ""),
     creadoEn: previo.creadoEn || new Date().toISOString(),
@@ -1086,6 +1184,7 @@ function cargarEvaluaciones(){
 function limpiarCob(){
   try{ db.ref(NODO_IND).off(); }catch(e){}
   cobertura = null; evalError = ""; cobAbiertos = {};
+  limpiarSim();
 }
 
 /* ---------- vínculo evento <-> proceso ---------- */
@@ -1097,10 +1196,6 @@ function procsDeEvento(e){
   return [...new Set(cods.filter(c => PROC_IDX[c]))];
 }
 function esAccionAbierta(e){ return e.accionEstado !== "Cerrada" && e.accionTipo !== "Sin cambios"; }
-function opcionesProcesos(){
-  return GRUPOS.map(g => `<optgroup label="${esc(g.t)}">` +
-    PROCESOS.filter(p => p.g === g.k).map(p => `<option value="${p.id}">${p.id} · ${esc(p.n)}</option>`).join("") + `</optgroup>`).join("");
-}
 function verEventosProc(pid){
   cambiarVista("bit");
   ["bBuscar","bTipo","bDoc","bAccion"].forEach(i => document.getElementById(i).value = "");
@@ -1245,6 +1340,401 @@ document.getElementById("cobTabla").addEventListener("click", ev => {
   if(b){ verEventosProc(b.getAttribute("data-ev")); return; }
   const tr = ev.target.closest("tr.pr");
   if(tr){ const id = tr.getAttribute("data-pid"); cobAbiertos[id] = !cobAbiertos[id]; renderCob(); }
+});
+
+/* =====================================================================
+   VENCIMIENTOS: próxima revisión de documentos y fecha límite de acciones
+   ===================================================================== */
+function hoyISO(){
+  const d = new Date();
+  return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0");
+}
+function sumarDias(iso, n){
+  const p = iso.split("-").map(Number);
+  const t = new Date(p[0], p[1]-1, p[2]+n);
+  return t.getFullYear() + "-" + String(t.getMonth()+1).padStart(2,"0") + "-" + String(t.getDate()).padStart(2,"0");
+}
+const RX_FECHA = /^\d{4}-\d{2}-\d{2}$/;
+function estadoRevision(d){
+  if(!d || !RX_FECHA.test(d.proxRevision || "")) return null;
+  const h = hoyISO();
+  if(d.proxRevision < h) return {c:"venc", t:"Revisión vencida desde el " + fmtFecha(d.proxRevision)};
+  if(d.proxRevision <= sumarDias(h, 30)) return {c:"prox", t:"Revisar antes del " + fmtFecha(d.proxRevision)};
+  return null;
+}
+function accionAtrasada(e){
+  return esAccionAbierta(e) && RX_FECHA.test(e.fechaLimite || "") && e.fechaLimite < hoyISO();
+}
+function chipRevision(d){
+  const r = estadoRevision(d);
+  return r ? `<span class="rev-${r.c}"><i class="ti ti-clock-exclamation"></i> ${esc(r.t)}</span>` : "";
+}
+function chipLimite(e){
+  if(!RX_FECHA.test(e.fechaLimite || "")) return "";
+  if(accionAtrasada(e)) return `<span class="rev-venc"><i class="ti ti-alarm"></i> Atrasada: vencía el ${esc(fmtFecha(e.fechaLimite))}</span>`;
+  return `<span style="font-size:12px;color:var(--texto-suave);"><i class="ti ti-calendar-due"></i> Límite: ${esc(fmtFecha(e.fechaLimite))}</span>`;
+}
+function renderAvisos(){
+  const da = document.getElementById("docAviso");
+  if(da){
+    let v = 0, p = 0;
+    Object.values(documentos).forEach(d => { const r = estadoRevision(d); if(r){ if(r.c === "venc") v++; else p++; } });
+    da.style.display = (v || p) ? "flex" : "none";
+    da.className = "aviso" + (v ? " rojo" : "");
+    da.innerHTML = `<i class="ti ti-clock-exclamation"></i><span>${v ? `<b>${v}</b> documento${v!==1?"s":""} con la revisión vencida` : ""}${v && p ? " · " : ""}${p ? `<b>${p}</b> para revisar en los próximos 30 días` : ""}</span><button class="linkbtn" onclick="soloVencidos()">Ver cuáles</button>`;
+  }
+  const ba = document.getElementById("bitAviso");
+  if(ba){
+    let a = 0, s = 0;
+    Object.values(eventos).forEach(e => {
+      if(accionAtrasada(e)) a++;
+      else if(esAccionAbierta(e) && !RX_FECHA.test(e.fechaLimite || "") && e.accionTipo && e.accionTipo !== "Sin definir") s++;
+    });
+    ba.style.display = (a || s) ? "flex" : "none";
+    ba.className = "aviso" + (a ? " rojo" : "");
+    ba.innerHTML = `<i class="ti ti-alarm"></i><span>${a ? `<b>${a}</b> acción${a!==1?"es":""} de mejora atrasada${a!==1?"s":""}` : ""}${a && s ? " · " : ""}${s ? `<b>${s}</b> abierta${s!==1?"s":""} sin fecha límite` : ""}</span>${a ? `<button class="linkbtn" onclick="soloAtrasadas()">Ver cuáles</button>` : ""}`;
+  }
+}
+function soloVencidos(){ document.getElementById("fSoloVenc").checked = true; render(); window.scrollTo({top:0, behavior:"smooth"}); }
+function soloAtrasadas(){ document.getElementById("bAtras").checked = true; renderBit(); }
+document.getElementById("fSoloVenc").addEventListener("change", render);
+
+/* =====================================================================
+   PROCESOS: fichas del Manual de Procesos CCOD v1.2 con matriz RACI
+   ===================================================================== */
+const PROCESOS_MANUAL = [{"c":"P-JCOD-01","k":"P-JCOD-01","n":"Gestión del marco legal y normativo","rol":"Jefe CCOD","prop":"Asegurar que las actividades del CCOD se encuentren alineadas a la legislación eléctrica vigente, normativa interna y requisitos regulatorios aplicables, previniendo incumplimientos y asegurando evidencia de adecuación.","alc":"Requisitos regulatorios, procedimientos técnicos, requisitos internos EPEC, auditorías y adecuaciones que impactan en el CCOD y en MT/BT. La elevación a Gerencia se canaliza por Zona A.","disp":"Nueva norma, cambio regulatorio, auditoría, desvío normativo o revisión periódica.","ent":"Resoluciones, boletines regulatorios, especificaciones técnicas, procedimientos EPEC, reportes de auditoría.","sal":"Registro normativo actualizado, instrucción interna, plan de adecuación, acta de verificación e informe de cumplimiento.","sis":"Sistema documental, registros de auditoría, correo institucional, repositorios técnicos.","seq":[["1","Identificar y monitorear normativa aplicable.","Jefe CCOD","Registro normativo actualizado."],["2","Evaluar impacto operativo, técnico, documental y de seguridad con consulta a los roles y áreas involucrados.","Jefe CCOD","Informe de impacto normativo."],["3","Emitir instrucción interna de adecuación con los responsables y plazos definidos en la instrucción.","Jefe CCOD","Instrucción distribuida."],["4","Verificar la implementación en registros, soporte y turnos, bajo seguimiento de Jefatura.","Subjefe CCOD / Coordinador de Turno MT","Acta o evidencia de implementación."],["5","Reportar cumplimiento y desvíos por la conducción de Zona A.","Jefe CCOD","Informe de cumplimiento y elevación trazable."]],"ctl":[["Cambio normativo no detectado","Incumplimiento regulatorio o documental.","Revisión mensual y alerta de novedades normativas.","Registro de revisión."],["Adecuación no comunicada","Aplicación heterogénea en turnos.","Circular formal y acuse de recepción.","Evidencia de comunicación."],["Falta de verificación","Desvíos reiterados.","Auditoría interna y plan de acción.","Acta de control."]],"raci":[{"a":"Monitorear normativa","r":["A/R","I","I","I","-","-","Áreas técnicas: C; SHyMA: C"]},{"a":"Evaluar impacto","r":["A/R","C","C","I","-","-","Áreas técnicas, SHyMA, CTZ y Teleoperación: C"]},{"a":"Emitir instrucción","r":["A/R","I","I","I","-","-","Áreas técnicas y SHyMA: C"]},{"a":"Verificar implementación","r":["A","R","R","I","-","-","Áreas técnicas y SHyMA: C"]},{"a":"Reportar cumplimiento por Zona A","r":["A/R","-","-","-","I","I","-"]}]},{"c":"P-JCOD-02","k":"P-JCOD-02","n":"Definición de criterios permanentes de configuración MT/BT","rol":"Jefe CCOD","prop":"Establecer criterios de configuración de red MT/BT que aseguren confiabilidad, seguridad, flexibilidad operativa y continuidad del servicio.","alc":"Aplica a topología de red, criterios de operación normal, alternativas de emergencia, incorporación de nuevos tramos y revisión de configuraciones.","disp":"Cambio de red, evento mayor, necesidad de mejora, revisión anual o requerimiento técnico.","ent":"Historial de fallas, SCADA, SITEC, planimetría, informes técnicos, indicadores de red.","sal":"Documento de criterios aprobado, instrucciones operativas y criterios para maniobras de emergencia.","sis":"SCADA, SITEC, GIS/planimetría, informes técnicos.","seq":[["1","Recopilar antecedentes de red, fallas, sistemas y planimetría.","Jefe CCOD","Datos y referencias técnicas identificados."],["2","Analizar confiabilidad y alternativas con consulta a áreas técnicas.","Jefe CCOD","Análisis técnico."],["3","Definir criterios permanentes y alternativas de emergencia.","Jefe CCOD","Documento de criterios MT/BT."],["4","Canalizar la validación técnica y gerencial por la conducción de Zona A.","Jefe CCOD / Conducción de Zona A","Solicitud y antecedentes elevados por el circuito establecido."],["5","Recibir la validación del nivel competente por Zona A e incorporar observaciones.","Jefe CCOD","Criterios validados o documento ajustado."],["6","Comunicar los criterios validados a Subjefatura y Coordinador y verificar su difusión a los turnos.","Jefe CCOD / Subjefe CCOD","Instrucción y registro de difusión."]],"ctl":[["Datos desactualizados","Criterios incorrectos o riesgosos.","Contraste SCADA/SITEC/planimetría.","Informe técnico validado."],["Criterios no validados","Aplicación de criterios sin respaldo.","Canalizar la validación por Zona A y utilizar el documento validado; conservar observaciones y ajustes.","Acta, validación y versión del documento."],["No difusión","Aplicación no uniforme.","Briefing y acuse.","Registro de comunicación."]],"raci":[{"a":"Recopilar antecedentes","r":["A/R","C","C","I","-","-","CTZ, Teleoperación y áreas técnicas: C"]},{"a":"Analizar alternativas","r":["A/R","C","C","-","-","-","Áreas técnicas y SHyMA: C"]},{"a":"Definir criterios","r":["A/R","C","I","I","-","-","Áreas técnicas y SHyMA: C"]},{"a":"Canalizar validación por Zona A","r":["R","-","-","-","R","I","Áreas técnicas y SHyMA: C; Gerencia: A por Zona A"]},{"a":"Recibir validación y ajustar","r":["A/R","C","-","-","I","I","-"]},{"a":"Difundir criterios validados","r":["A","R","I","I","-","-","-"]}]},{"c":"P-JCOD-03","k":"P-JCOD-03","n":"Gestión de contrataciones de servicios","rol":"Jefe CCOD","prop":"Gestionar necesidades de contratación vinculadas al CCOD, asegurando especificaciones claras, control de desempeño, trazabilidad de requerimientos y alineación con necesidades operativas.","alc":"Requerimientos de servicios, especificaciones y seguimiento técnico. No incorpora facultades adicionales de adjudicación, contratación o autorización de gasto.","disp":"Brecha de capacidad, necesidad operativa, vencimiento contractual, nuevo requerimiento o evaluación de desempeño insuficiente.","ent":"Necesidad operativa, especificaciones técnicas, antecedentes de servicio, presupuesto, informes de desempeño.","sal":"Solicitud de contratación, especificación técnica, informe de seguimiento y evaluación del servicio.","sis":"Sistema administrativo, expedientes, registros de servicio, informes operativos.","seq":[["1","Identificar la necesidad y fundamentar la brecha operativa.","Jefe CCOD","Solicitud fundamentada."],["2","Definir alcance, especificaciones, acuerdos de servicio existentes y criterios de aceptación.","Jefe CCOD","Especificación técnica."],["3","Canalizar la solicitud por el circuito administrativo establecido; las elevaciones gerenciales se realizan por Zona A.","Jefe CCOD","Expediente o solicitud trazable."],["4","Seguir la prestación, registrar desvíos y aportar antecedentes a Jefatura.","Subjefe CCOD","Informe de seguimiento."],["5","Evaluar la prestación y fundamentar cierre o propuesta de renovación por el circuito correspondiente.","Jefe CCOD","Evaluación documentada."]],"ctl":[["Requisito ambiguo","Contratación no satisface necesidad.","Especificación y criterios de aceptación.","Documento técnico."],["Falta de seguimiento","Servicio deficiente sostenido.","Control periódico y registro de desvíos.","Informe de desempeño."],["Desvíos no escalados","Impacto operativo.","Escalamiento administrativo/técnico.","Acta o expediente."]],"raci":[{"a":"Fundamentar necesidad","r":["A/R","C","I","-","-","-","Áreas técnicas y SHyMA: C"]},{"a":"Definir especificaciones","r":["A/R","C","I","-","-","-","Áreas técnicas y SHyMA: C"]},{"a":"Canalizar solicitud administrativa","r":["A/R","I","-","-","I","I","Circuito administrativo establecido; comunicación gerencial por Zona A"]},{"a":"Seguir prestación","r":["A","R","C","I","-","-","Áreas técnicas, SHyMA, CTZ y Teleoperación: C"]},{"a":"Evaluar servicio","r":["A/R","C","I","-","-","-","Áreas técnicas y SHyMA: C"]}]},{"c":"P-JCOD-04","k":"P-JCOD-04","n":"Supervisión de sistemas SCADA, SITEC y sistemas técnicos de operación","rol":"Jefe CCOD","prop":"Garantizar disponibilidad, confiabilidad y uso adecuado de los sistemas técnicos dedicados a la operación del CCOD.","alc":"Aplica a SCADA, SITEC, mapa de reclamos, comunicaciones técnicas, integridad de datos y continuidad de herramientas operativas.","disp":"Falla de sistema, indisponibilidad, degradación, cambio tecnológico, mantenimiento o revisión diaria.","ent":"Reportes de usuarios, alarmas de sistemas, incidencias, indicadores de disponibilidad, novedades de turno.","sal":"Reporte de disponibilidad, incidentes técnicos escalados, acciones correctivas y plan de mejora.","sis":"SCADA, SITEC, Mapa de Reclamos, mesa de ayuda, bitácora técnica.","seq":[["1","Monitorear disponibilidad y recibir reportes de sistemas críticos bajo seguimiento de Jefatura.","Subjefe CCOD","Registro de disponibilidad."],["2","Clasificar y priorizar las incidencias con información del turno.","Subjefe CCOD","Incidencia clasificada."],["3","Escalar a soporte técnico y definir la contingencia operativa; los asuntos fuera de alcance se canalizan por Zona A.","Jefe CCOD","Ticket y contingencia documentada."],["4","Verificar y comunicar el restablecimiento.","Subjefe CCOD","Cierre de incidencia."],["5","Analizar recurrencias y proponer mejoras.","Jefe CCOD","Informe de mejora."]],"ctl":[["Indisponibilidad no detectada","Pérdida de control operativo.","Chequeo de disponibilidad y canal de reporte.","Registro/ticket."],["Sin contingencia","Interrupción del servicio operativo.","Instrucción temporal validada.","Comunicación de contingencia."],["Reincidencia","Falla crónica no resuelta.","Análisis de causa y plan de mejora.","Informe de recurrencia."]],"raci":[{"a":"Monitorear disponibilidad","r":["A","R","I","I","I","-","Áreas Técnicas: C; Gerencia: I (por Zona A)"]},{"a":"Priorizar incidencias","r":["A","R","C","I","I","-","Áreas Técnicas: C; Gerencia: I (por Zona A)"]},{"a":"Escalar soporte","r":["A/R","C","I","I","I","-","Áreas Técnicas: C; Gerencia: I (por Zona A)"]},{"a":"Comunicar normalización","r":["A","R","I","I","I","-","Áreas Técnicas: C; Gerencia: I (por Zona A)"]},{"a":"Analizar recurrencias","r":["A/R","C","I","-","I","-","Áreas Técnicas: C; Gerencia: I (por Zona A)"]}]},{"c":"P-JCOD-05","k":"P-JCOD-05","n":"Aprobación de informes de rendimiento operativo MT/BT","rol":"Jefe CCOD","prop":"Aprobar informes de rendimiento operativo de la red MT/BT, asegurando consistencia de datos, análisis de desvíos, conclusiones y acciones de mejora.","alc":"Aplica a informes periódicos, tableros, indicadores, reportes de disponibilidad, continuidad, reclamos, maniobras y novedades relevantes.","disp":"Cierre mensual, evento relevante, requerimiento gerencial o revisión de indicadores.","ent":"Registros de novedades, informes de turno, indicadores SCADA/SITEC, datos de reclamos y reportes del Subjefe.","sal":"Informe aprobado o devolución documentada, correcciones, acciones de mejora y comunicación a nivel superior por Zona A.","sis":"Planillas de indicadores, reportes técnicos, tableros, repositorios documentales.","seq":[["1","Recibir el informe consolidado de Subjefatura.","Jefe CCOD","Informe recibido."],["2","Verificar consistencia de datos y trazabilidad de fuentes.","Jefe CCOD","Control de calidad del dato."],["3","Analizar desvíos, tendencias y riesgos operativos.","Jefe CCOD","Observaciones documentadas."],["4","Aprobar el informe o devolverlo con observaciones para corrección.","Jefe CCOD","Decisión de aprobación o devolución."],["5","Si fue devuelto, corregir o completar el informe y presentarlo nuevamente desde el paso 1.","Subjefe CCOD","Informe corregido y fuentes contrastadas."],["6","Si fue aprobado, elevar informe y acciones por la conducción de Zona A.","Jefe CCOD","Informe aprobado y elevación trazable."]],"ctl":[["Datos inconsistentes","Decisiones con información errónea.","Validación cruzada de fuentes.","Checklist de calidad."],["Sin análisis de desvíos","Informe descriptivo sin gestión.","Revisión de tendencias y causas.","Observaciones documentadas."],["Acciones sin dueño","Mejora no implementada.","Asignación de responsable y plazo.","Plan de acción."]],"raci":[{"a":"Consolidar, entregar y recibir informe","r":["A/R","R","I","I","-","-","-"]},{"a":"Validar datos","r":["A/R","C","-","-","-","-","Áreas técnicas: C"]},{"a":"Analizar desvíos","r":["A/R","C","C","I","-","-","Áreas técnicas y SHyMA: C"]},{"a":"Aprobar o devolver","r":["A/R","I","-","-","-","-","-"]},{"a":"Corregir y volver a presentar","r":["A","R","C","C","-","-","-"]},{"a":"Elevar por Zona A","r":["A/R","-","-","-","I","I","-"]}]},{"c":"P-SCOD-01","k":"P-SCOD-01","n":"Gestión de disponibilidad de comunicaciones operativas","rol":"Subjefe CCOD","prop":"Asegurar que los equipos y canales de comunicación radial, telefónica y operativa se encuentren disponibles para la coordinación segura de los turnos.","alc":"Aplica a radios, telefonía operativa, canales internos, medios alternativos, fallas y disponibilidad al inicio y durante cada turno.","disp":"Inicio de turno, falla de comunicación, reclamo de operador, mantenimiento o verificación periódica.","ent":"Estado de equipos, reportes de turno, tickets de falla, inventario y novedades de comunicación.","sal":"Canales disponibles, falla registrada/escalada, contingencia comunicada y cierre documentado.","sis":"Radios VHF/UHF, telefonía operativa, sistema interno, registros de soporte.","seq":[["1","Verificar disponibilidad de canales al inicio del turno.","Subjefe CCOD","Checklist de comunicaciones."],["2","Recibir reportes de falla o degradación.","Subjefe CCOD","Incidencia registrada."],["3","Definir canal alternativo mientras se resuelve la falla.","Subjefe CCOD","Contingencia informada."],["4","Escalar a soporte y realizar seguimiento.","Subjefe CCOD","Ticket con estado."],["5","Comunicar restablecimiento al equipo.","Subjefe CCOD","Cierre documentado."]],"ctl":[["Equipo no disponible","Demora en coordinación de emergencia.","Chequeo inicial y canal alternativo.","Checklist/ticket."],["Falla no escalada","Persistencia de interrupción.","Escalamiento formal y seguimiento.","Ticket actualizado."],["Equipo sin información","Uso incorrecto de canales.","Comunicación de contingencia.","Mensaje distribuido."]],"raci":[{"a":"Verificar canales","r":["I","A/R","I","I","-","-","Cuadrillas/Guardia: I; CTZ: I; Teleoperación: I; Áreas Técnicas: C"]},{"a":"Registrar falla","r":["I","A/R","C","I","-","-","Cuadrillas/Guardia: I; CTZ: I; Teleoperación: I; Áreas Técnicas: C"]},{"a":"Definir contingencia","r":["I","A/R","I","I","-","-","Cuadrillas/Guardia: I; CTZ: I; Teleoperación: I; Áreas Técnicas: C"]},{"a":"Escalar soporte","r":["I","A/R","I","-","-","-","Áreas Técnicas: C"]},{"a":"Cerrar incidencia","r":["I","A/R","I","I","-","-","Cuadrillas/Guardia: I; CTZ: I; Teleoperación: I; Áreas Técnicas: C"]}]},{"c":"P-SCOD-02","k":"P-SCOD-02","n":"Gestión de documentación técnica de redes MT/BT","rol":"Subjefe CCOD","prop":"Mantener organizada, vigente y disponible la documentación técnica requerida para la operación segura y eficiente de redes MT/BT.","alc":"Aplica a planos, esquemas, manuales, instructivos, documentación GIS/SITEC y versiones disponibles para turnos.","disp":"Nueva obra, modificación de red, discrepancia detectada, actualización periódica o requerimiento de turno.","ent":"Planos, croquis, GIS, SITEC, informes de campo, documentación técnica de áreas especializadas.","sal":"Documentación actualizada, discrepancias corregidas, repositorio ordenado e información disponible para operación.","sis":"SITEC, GIS, repositorio documental, planimetría, manuales técnicos.","seq":[["1","Identificar documentación existente y estado de actualización.","Subjefe CCOD","Inventario documental."],["2","Contrastar documentación con estado real informado por campo.","Subjefe CCOD","Listado de discrepancias."],["3","Solicitar actualización a áreas técnicas.","Subjefe CCOD","Pedido formal."],["4","Publicar versión vigente y retirar referencias obsoletas.","Subjefe CCOD","Repositorio actualizado."],["5","Informar cambios a Coordinador de Turno MT y Operadores.","Subjefe CCOD","Comunicación de actualización."]],"ctl":[["Plano obsoleto","Maniobra o diagnóstico erróneo.","Control de versión y retiro de documentos vencidos.","Repositorio vigente."],["Discrepancia no informada","Reiteración de errores operativos.","Registro y seguimiento de discrepancias.","Listado de desvíos."],["Cambio no difundido","Uso de versión anterior.","Notificación formal a turnos.","Acuse de lectura."]],"raci":[{"a":"Inventariar documentación","r":["I","A/R","C","I","-","-","Cuadrillas/Guardia: C; CTZ: C; Áreas Técnicas: C"]},{"a":"Detectar discrepancias","r":["I","A/R","C","C","-","-","Cuadrillas/Guardia: C; CTZ: C; Áreas Técnicas: C"]},{"a":"Solicitar actualización","r":["I","A/R","I","I","-","-","Cuadrillas/Guardia: I; CTZ: I; Áreas Técnicas: C"]},{"a":"Publicar vigente","r":["I","A/R","I","I","-","-","Cuadrillas/Guardia: I; CTZ: I; Áreas Técnicas: C"]},{"a":"Difundir cambios","r":["I","A/R","I","I","-","-","Cuadrillas/Guardia: I; CTZ: I; Teleoperación: I; Áreas Técnicas: C"]}]},{"c":"P-SCOD-03","k":"P-SCOD-03","n":"Control del registro de novedades del servicio MT","rol":"Subjefe CCOD","prop":"Controlar la actualización, integridad y utilidad operativa del registro de novedades MT para asegurar continuidad entre turnos y mejora del servicio.","alc":"Control de calidad y seguimiento de novedades, fallas, maniobras, reclamos y pendientes MT. Subjefatura recibe las novedades del cierre; no aprueba el cierre ni la entrega de turno. Los asuntos escalables se canalizan por Zona A.","disp":"Inicio/cierre de turno, novedad crítica, auditoría de registros o revisión periódica.","ent":"Bitácoras, registros de novedades, informes de turno, reclamos y datos SCADA/SITEC.","sal":"Registro completo y actualizado, desvíos de calidad de dato corregidos, informe consolidado.","sis":"Bitácora, registro de novedades, mapa de reclamos, SCADA, planilla de informe diario.","seq":[["1","Revisar novedades y pendientes transferidos por los turnos.","Subjefe CCOD","Pendientes identificados."],["2","Controlar completitud, clasificación y oportunidad del registro.","Subjefe CCOD","Control de calidad del dato."],["3","Solicitar corrección o ampliación al turno y verificar la actualización.","Subjefe CCOD","Registro corregido."],["4","Consolidar novedades críticas y recurrentes y aportar información de gestión a Jefatura.","Subjefe CCOD","Informe consolidado."],["5","Si el asunto requiere escalamiento, comunicarlo primero al Subjefe de Zona A; ante su ausencia o por la envergadura del problema, al Jefe de Zona A.","Subjefe CCOD","Escalamiento trazable por Zona A."]],"ctl":[["Datos incompletos","Pérdida de trazabilidad.","Campos obligatorios y revisión diaria.","Registro completo."],["Pendiente no priorizado","Continuidad afectada.","Matriz de criticidad y responsable.","Listado priorizado."],["Desvío recurrente","Falla de proceso.","Análisis de recurrencia y acción correctiva.","Reporte mensual."]],"raci":[{"a":"Revisar pendientes transferidos","r":["-","A/R","C","R","-","-","-"]},{"a":"Controlar registros","r":["-","A/R","C","R","-","-","-"]},{"a":"Solicitar, corregir y verificar registros","r":["-","A/R","R","R","-","-","-"]},{"a":"Consolidar información de gestión","r":["I","A/R","C","I","-","-","Áreas técnicas y SHyMA: C"]},{"a":"Escalar por Zona A","r":["I","A/R","-","-","I","I","-"]}]},{"c":"","k":"COMP-PERSONAL","n":"Gestión del personal, roseta y cobertura del servicio","rol":"Subjefe CCOD","prop":"Administrar las licencias autorizadas, organizar y evaluar al personal, disponer cambios y cobertura de ausencias y registrar presencia para sostener la organización del servicio.","alc":"Las rutas se activan por su propio disparador: licencia del personal, necesidad de roseta o cobertura, ingreso/salida MT/BT o instancia de evaluación. No son pasos obligatorios sucesivos para cada caso.","disp":"Solicitud o autorización de licencia; necesidad de organizar turnos o cubrir una ausencia; ingreso o salida de operador MT/BT; evaluación del personal.","ent":"Información del personal y turnos, licencia autorizada, necesidad de cobertura y registros de presencia y del trabajo.","sal":"Licencias administradas, roseta y coberturas definidas, registros de ingreso/salida MT/BT y evaluación del personal.","sis":"Roseta y registros institucionales de personal, turnos y evaluación.","seq":[["L1","Ruta licencia: autorizar la licencia del personal.","Jefe CCOD","Constancia de autorización."],["L2","Administrar la licencia autorizada e incorporarla a la organización del servicio.","Subjefe CCOD","Registro de licencia y roseta."],["O1","Ruta organización: confeccionar la roseta y disponer cambios de turno y cobertura de ausencias.","Subjefe CCOD","Roseta y coberturas definidas."],["P1","Ruta presencia: registrar ingresos y salidas de operadores MT y BT durante el turno.","Coordinador de Turno MT","Registro de presencia."],["E1","Ruta evaluación: evaluar al personal y ejercer decisiones de organización y conducción del ámbito.","Subjefe CCOD","Registro de evaluación y decisiones."]],"ctl":[["Confusión de facultades","Licencia administrada como si fuera autorizada por Subjefatura.","Jefatura autoriza; Subjefatura administra la licencia y organiza la cobertura.","Autorización y roseta."],["Cobertura de ausencias","Desajuste de la organización del servicio.","Subjefatura dispone cambios y coberturas y mantiene la roseta.","Roseta y registro de cobertura."],["Presencia MT/BT","Datos incompletos para administración del servicio.","El Coordinador registra ingresos y salidas de ambos roles.","Registro de presencia."]],"raci":[{"a":"Autorizar licencia del personal","r":["A/R","I","-","-","-","-","-"]},{"a":"Administrar licencia autorizada","r":["I","A/R","-","-","-","-","-"]},{"a":"Confeccionar roseta y coberturas","r":["I","A/R","I","I","-","-","-"]},{"a":"Registrar ingresos y salidas MT/BT","r":["-","I","A/R","I","-","-","Operador BT: I"]},{"a":"Evaluar y organizar personal","r":["I","A/R","I","I","-","-","-"]}]},{"c":"","k":"COMP-MANIOBRAS","n":"Autorización y realización de maniobras programadas","rol":"Subjefe CCOD","prop":"Distinguir firma y autorización de la programación, autorización y supervisión durante el turno y realización de la maniobra por el Operador desde el CCOD.","alc":"Maniobras programadas. La actuación durante el turno se vincula con P-JTMT-01/02 y P-OMT-01/03. Las maniobras de servicio se realizan bajo autorización y supervisión del Coordinador y se describen en los procesos de turno.","disp":"Maniobra programada que requiere firma y autorización de Subjefatura.","ent":"Programación, información de red y referencias técnicas y de SG-P200 aplicables.","sal":"Programación firmada y autorizada, actuación del Operador autorizada y supervisada, registros y estado final.","sis":"Programación de maniobras, SCADA, SITEC, planimetría, comunicaciones y bitácora.","seq":[["1","Revisar la programación y sus referencias para la autorización de la maniobra.","Subjefe CCOD","Programación identificada."],["2","Firmar y autorizar la maniobra programada.","Subjefe CCOD","Programación firmada y autorizada."],["3","Recibir la programación autorizada y autorizar y supervisar las actuaciones del Operador durante el turno.","Coordinador de Turno MT","Programación y consignas disponibles."],["4","Llevar la maniobra de inicio a fin desde el CCOD con comunicaciones a campo, telemandos y registros, siempre autorizado y supervisado por el Coordinador.","Operador MT","Actuaciones y comunicaciones trazables."],["5","Verificar y registrar el estado final y comunicar novedades al Coordinador para seguimiento y cierre del turno.","Operador MT","Estado final, restricciones y pendientes."]],"ctl":[["Programación y realización","Confusión entre autorización de programación y actuación durante el turno.","Subjefatura firma y autoriza la programación; Coordinador autoriza y supervisa toda actuación del Operador.","Programación y consignas."],["Ejecución desde CCOD y campo","Atribución indebida de tareas de campo al centro de control.","Operador actúa como OCOR; las tareas de campo pertenecen a los roles del SG-P200.","Comunicaciones con roles identificados."],["Estado final","Cierre sin evidencia o sin pendientes visibles.","Operador verifica y registra estado final bajo supervisión del Coordinador y comunica desvíos.","Bitácora y estado final."]],"raci":[{"a":"Revisar programación","r":["-","A/R","C","C","-","-","-"]},{"a":"Firmar y autorizar programación","r":["-","A/R","I","I","-","-","-"]},{"a":"Autorizar y supervisar actuación","r":["-","I","A/R","I","-","-","-"]},{"a":"Realizar actuación OCOR","r":["-","-","A","R","-","-","Responsables de campo: R en sus funciones SG-P200"]},{"a":"Registrar estado final y novedades","r":["-","-","A","R","-","-","-"]}]},{"c":"P-JTMT-01","k":"P-JTMT-01","n":"Conducción operativa del turno MT","rol":"Coordinador de Turno MT","prop":"Conducir la operación MT durante el turno, autorizar y supervisar las actuaciones del Operador, registrar presencia MT/BT y entregar al Coordinador entrante la situación operativa y los pendientes con comunicación de novedades a Subjefatura.","alc":"Operación en tiempo real durante turnos rotativos de seis horas. Comprende maniobras programadas y de servicio, reclamos, fallas y entrega de turno. La supervisión se ejerce desde el CCOD; las responsabilidades de campo están definidas en SG-P200.","disp":"Inicio de turno, alarma, falla, reclamo crítico, instrucción superior, maniobra programada/no programada.","ent":"Informe de turno saliente, estado de red, SCADA/SITEC, novedades, reclamos, disponibilidad de cuadrillas, consignas vigentes.","sal":"Prioridades, actuaciones autorizadas y supervisadas, registro de ingresos y salidas MT/BT, estados y pendientes, entrega al Coordinador entrante y novedades comunicadas a Subjefatura.","sis":"SCADA, SITEC, mapa de reclamos, comunicaciones, bitácora, planimetría.","seq":[["1","Recibir el turno del Coordinador saliente y revisar estado de red, eventos, restricciones y consignas.","Coordinador de Turno MT","Situación inicial comprendida y registrada."],["2","Registrar ingresos y salidas de Operadores MT y BT durante el turno.","Coordinador de Turno MT","Registro de presencia actualizado."],["3","Definir prioridades del turno y asignar tareas al Operador MT.","Coordinador de Turno MT","Prioridades y consignas."],["4","Autorizar y supervisar toda actuación del Operador MT, en maniobras programadas y de servicio. La programación cuenta con firma y autorización de Subjefatura.","Coordinador de Turno MT","Autorización y supervisión trazables."],["5","Realizar las actuaciones desde el CCOD: comunicaciones a campo, telemandos, registros y verificación del estado final bajo autorización y supervisión del Coordinador.","Operador MT","Actuaciones y estados documentados."],["6","Supervisar la evolución de fallas, reclamos y normalización y los desvíos que requieren decisión.","Coordinador de Turno MT","Seguimiento actualizado."],["7","Cerrar y entregar el turno al Coordinador entrante con estados, restricciones, novedades y pendientes.","Coordinador de Turno MT","Entrega documentada al Coordinador entrante."],["8","Comunicar al Subjefe CCOD las novedades del cierre. No se requiere su aprobación para cerrar o entregar el turno.","Coordinador de Turno MT","Comunicación de novedades."]],"ctl":[["Inicio sin revisión","Eventos críticos omitidos.","Lectura de bitácora y validación con turno saliente.","Registro inicial."],["Prioridad inadecuada","Demoras o riesgos de seguridad.","Criterio de criticidad y validación.","Prioridades asentadas."],["Escalamiento tardío","Afectación de servicio o seguridad.","Umbrales de escalamiento.","Notificación registrada."],["Cierre condicionado a Subjefatura","Demora o confusión de autoridad en la entrega.","El Coordinador cierra y entrega al entrante y comunica novedades al Subjefe; no requiere aprobación de este.","Registro de entrega y comunicación."],["Registro de presencia MT/BT","Inconsistencia para administración de turnos.","El Coordinador registra ingresos y salidas y mantiene la información disponible para Subjefatura.","Registro de presencia."]],"raci":[{"a":"Recibir el turno","r":["-","-","A/R","C","-","-","Coordinador saliente: R"]},{"a":"Registrar ingresos y salidas MT/BT","r":["-","I","A/R","I","-","-","Operador BT: I"]},{"a":"Priorizar y asignar tareas","r":["-","C","A/R","I","-","-","Campo, CTZ, Teleoperación, áreas técnicas y SHyMA: C"]},{"a":"Autorizar y supervisar actuaciones","r":["-","I","A/R","I","-","-","-"]},{"a":"Actuar desde el CCOD bajo autorización","r":["-","-","A","R","-","-","Responsables de campo: R en sus tareas según SG-P200"]},{"a":"Supervisar evolución","r":["-","-","A/R","R","-","-","Campo, CTZ y Teleoperación: C"]},{"a":"Cerrar y entregar al entrante","r":["-","I","A/R","R","-","-","Coordinador entrante: R en la recepción"]},{"a":"Comunicar novedades al Subjefe","r":["-","I","A/R","C","-","-","-"]}]},{"c":"P-JTMT-02","k":"P-JTMT-02","n":"Supervisión de la actuación del CCOD en consignación y desconsignación MT según SG-P200","rol":"Coordinador de Turno MT","prop":"Supervisar y mantener trazable la actuación del CCOD en consignación y desconsignación MT, diferenciando autorización y supervisión del Coordinador, actuación del Operador de OCOR y responsabilidades de campo definidas por SG-P200.","alc":"Describe las interfaces organizacionales del CCOD con los responsables de campo. La secuencia técnica, las condiciones de licencias y las tareas específicas de consignación y desconsignación se rigen por SG-P200; este proceso no sustituye ese procedimiento.","disp":"Maniobra programada, emergencia, trabajo autorizado, solicitud de cuadrilla, ingreso de responsable de trabajo en campo o necesidad de desconsignar.","ent":"Procedimiento SG-P200, estado de red, solicitud de trabajo, planimetría, reportes de campo, disponibilidad de responsables autorizados.","sal":"Actuaciones OCOR autorizadas y supervisadas, comunicaciones y referencias de licencias según SG-P200, confirmaciones de campo registradas, estado final y desvíos trazables.","sis":"SCADA, SITEC, comunicaciones, bitácora de maniobras, SG-P200, planimetría MT.","seq":[["1","Conocer el SG-P200 y autorizar y supervisar las actuaciones del Operador desde el CCOD. Para maniobras programadas se cuenta con programación firmada y autorizada por Subjefatura.","Coordinador de Turno MT","Consignas, autorización y supervisión."],["2","Actuar como Operador de OCOR y ordenar desvincular la zona inhibida, bajo autorización y supervisión del Coordinador.","Operador MT","Orden y comunicación registradas."],["3","Efectuar las maniobras de apertura y bloqueo y comunicar su finalización al Operador de OCOR conforme al SG-P200.","Responsable de maniobra en campo","Aviso de finalización de la actuación de campo."],["4","Recibir y registrar el aviso y comunicar la orden para establecer la zona de trabajo conforme al SG-P200.","Operador MT","Aviso y orden trazables."],["5","Realizar las tareas del punto 4.2, ítems c), d) y e), ejecutar los trabajos y cumplir las responsabilidades de seguridad de campo definidas en SG-P200.","Responsable de trabajo en campo","Confirmaciones y avisos de campo previstos por SG-P200."],["6","Mantener las comunicaciones, restricciones y registros de consignación y licencias que correspondan al OCOR según SG-P200, siempre bajo autorización y supervisión del Coordinador.","Operador MT","Registros y comunicaciones del OCOR."],["7","Supervisar desde el CCOD las actuaciones, restricciones y comunicaciones, sin asumir la ejecución ni las responsabilidades de campo.","Coordinador de Turno MT","Seguimiento del turno y desvíos comunicados."],["8","Recibir y registrar los avisos de finalización y realizar la actuación del OCOR en desconsignación conforme al SG-P200, con autorización y supervisión del Coordinador. Las tareas técnicas de cada responsable de campo conservan su procedimiento.","Operador MT","Avisos y registros de finalización y actuación OCOR según SG-P200."],["9","Verificar y registrar el estado final desde el CCOD, bajo autorización y supervisión del Coordinador; comunicar y escalar desvíos o restricciones que permanezcan.","Operador MT","Estado final y pendientes documentados."]],"ctl":[["Actuación sin autorización","Desvinculación entre maniobra y conducción del turno.","Toda actuación del Operador requiere autorización y supervisión del Coordinador.","Consigna, autorización y seguimiento."],["Confusión entre centro de control y campo","Asignación incorrecta de ejecución o seguridad de campo.","Diferenciar Operador de OCOR, responsable de maniobra y responsable de trabajo conforme a SG-P200.","Órdenes, avisos y confirmaciones con rol identificado."],["Confirmación o información incompleta","Seguimiento sin respaldo del estado real.","Registrar avisos y contrastar información bajo supervisión del Coordinador; aplicar el SG-P200 ante desvíos.","Comunicación registrada y desvío comunicado."],["Licencias, restricciones o cierre técnico","Actuación que omita condiciones del procedimiento.","La secuencia, las restricciones y las funciones sobre licencias se rigen por SG-P200; no se crean atribuciones adicionales en este manual.","Registros y referencias del procedimiento aplicable."]],"raci":[{"a":"Autorizar y supervisar actuación OCOR","r":["-","I","A/R","I","-","-","-"]},{"a":"Ordenar desvincular zona inhibida","r":["-","-","A","R","-","-","Responsable de maniobra en campo: I"]},{"a":"Apertura/bloqueo y aviso de campo","r":["-","-","I","I","-","-","Responsable de maniobra en campo: A/R según SG-P200"]},{"a":"Registrar aviso y ordenar zona de trabajo","r":["-","-","A","R","-","-","Responsable de trabajo en campo: I"]},{"a":"Tareas y seguridad de trabajo en campo","r":["-","-","I","I","-","-","Responsable de trabajo en campo: A/R según SG-P200"]},{"a":"Comunicaciones y registros OCOR","r":["-","-","A","R","-","-","Responsables de campo: R en sus avisos y confirmaciones"]},{"a":"Supervisión desde CCOD","r":["-","-","A/R","R","-","-","-"]},{"a":"Desconsignación: actuación OCOR","r":["-","-","A","R","-","-","Responsables de campo: R en sus tareas conforme a SG-P200"]},{"a":"Registrar estado final y desvíos","r":["-","-","A","R","-","-","-"]}]},{"c":"P-JTMT-03","k":"P-JTMT-03","n":"Atención de reclamos técnicos de turno","rol":"Coordinador de Turno MT","prop":"Gestionar reclamos técnicos durante el turno, priorizando criticidad, seguridad y continuidad del servicio, hasta su cierre, derivación o escalamiento.","alc":"Aplica a reclamos técnicos ingresados por canales operativos, mapa de reclamos, cuadrillas, CTZ, Teleoperación y reportes de usuarios internos.","disp":"Ingreso de reclamo, falla, alerta, requerimiento de atención o derivación de operador.","ent":"Reclamo, ubicación, datos técnicos, estado de red, disponibilidad de cuadrilla, historial de eventos.","sal":"Reclamo clasificado, actuación autorizada, seguimiento y cierre o transferencia al turno entrante; novedad comunicada a Subjefatura.","sis":"Mapa de Reclamos, SCADA, SITEC, comunicaciones, bitácora.","seq":[["1","Recibir y completar los datos del reclamo técnico.","Operador MT","Ubicación, evento y datos disponibles registrados."],["2","Clasificar criticidad y afectación y autorizar la actuación del Operador.","Coordinador de Turno MT","Prioridad y autorización."],["3","Comunicar la derivación y registrar las actuaciones bajo supervisión del Coordinador.","Operador MT","Derivación trazable."],["4","Supervisar respuesta y evolución del reclamo, con registros del Operador.","Coordinador de Turno MT","Seguimiento y tiempos registrados."],["5","Cerrar con evidencia o transferir el pendiente al Coordinador entrante y comunicar la novedad a Subjefatura.","Coordinador de Turno MT / Operador MT","Estado final, cierre o traspaso documentado."]],"ctl":[["Datos incompletos","Derivación errónea.","Validar ubicación, evento y riesgo.","Registro completo."],["Criticidad mal asignada","Demora en atención crítica.","Criterio de prioridad.","Clasificación documentada."],["Cierre sin evidencia","Pérdida de trazabilidad.","Confirmación de campo y estado final.","Cierre registrado."]],"raci":[{"a":"Recibir y completar reclamo","r":["-","-","A","R","-","-","Campo, CTZ y Teleoperación: C"]},{"a":"Clasificar y autorizar","r":["-","C","A/R","C","-","-","Áreas técnicas y SHyMA: C"]},{"a":"Comunicar derivación autorizada","r":["-","-","A","R","-","-","Campo: R en la intervención; CTZ y Teleoperación: C"]},{"a":"Supervisar respuesta","r":["-","-","A/R","R","-","-","Campo, CTZ y Teleoperación: C"]},{"a":"Cerrar o transferir pendiente","r":["-","I","A/R","R","-","-","Coordinador entrante: R en recepción del pendiente"]}]},{"c":"P-OMT-01","k":"P-OMT-01","n":"Operación en tiempo real de redes de Media Tensión","rol":"Operador MT","prop":"Operar la red MT desde el CCOD, monitorear y llevar maniobras programadas y de servicio de inicio a fin con comunicaciones a campo, telemandos SCADA, registros y verificación del estado final, siempre autorizado y supervisado por el Coordinador.","alc":"Operación en turnos rotativos de seis horas. Actuación del Operador como OCOR desde el CCOD; las tareas de campo y sus responsabilidades están definidas en SG-P200.","disp":"Inicio de turno, alarma SCADA, reporte de campo, reclamo técnico, maniobra, emergencia o normalización.","ent":"Estado de red, reclamos técnicos, consignas del Coordinador de Turno MT, reportes de cuadrillas, planimetría MT, información CTZ/Teleoperación.","sal":"Eventos detectados, actuaciones autorizadas y supervisadas, telemandos y comunicaciones registradas, estados finales verificados y pendientes aportados para la entrega de turno.","sis":"SCADA, SITEC, Mapa de Reclamos, Bitácora, Planimetría MT, comunicaciones radiales/telefónicas.","seq":[["1","Tomar el turno y revisar estado de red, eventos, restricciones, pendientes y consignas con el Coordinador.","Operador MT","Situación inicial registrada."],["2","Monitorear alarmas, tendencias, tensiones, corrientes, cargas e indisponibilidades.","Operador MT","Eventos relevantes detectados."],["3","Clasificar inicialmente el evento y notificar al Coordinador condiciones fuera de parámetro o inseguras.","Operador MT","Notificación confirmada."],["4","Autorizar y supervisar las actuaciones del Operador. En las programadas, la programación cuenta con firma y autorización de Subjefatura.","Coordinador de Turno MT","Autorización y seguimiento."],["5","Llevar la maniobra de inicio a fin desde el CCOD: comunicar instrucciones a campo y ejecutar telemandos SCADA, siempre con autorización y supervisión del Coordinador.","Operador MT","Comunicaciones y registros SCADA."],["6","Registrar equipos, hora, responsables, actuaciones y estados, aplicando comunicación cerrada.","Operador MT","Registro completo y confirmaciones."],["7","Verificar y registrar el estado final y la normalización desde el CCOD; comunicar restricciones o normalización incompleta al Coordinador.","Operador MT","Estado final y desvíos notificados."],["8","Aportar registros y pendientes para la entrega que realiza el Coordinador al turno entrante.","Operador MT","Continuidad documental del turno."]],"ctl":[["Inicio de turno","Omitir eventos abiertos.","Lectura de bitácora y validación con Coordinador de Turno MT.","Pendientes iniciales."],["Monitoreo SCADA","No detectar alarma crítica.","Verificación continua y priorización.","Evento con hora y acción."],["Actuación operativa","Maniobra sin autorización o supervisión.","Toda actuación del Operador requiere autorización y supervisión del Coordinador; en programadas, la programación está autorizada por Subjefatura.","Consigna, autorización y registro."],["Normalización","Cerrar sin estado final seguro.","Validar restricciones y pendientes.","Cierre con estado final."]],"raci":[{"a":"Tomar turno","r":["-","-","A","R","-","-","-"]},{"a":"Monitorear red","r":["-","-","A","R","-","-","Áreas técnicas y SHyMA: C"]},{"a":"Clasificar y notificar evento","r":["-","-","A","R","-","-","-"]},{"a":"Autorizar y supervisar actuaciones","r":["-","-","A/R","I","-","-","-"]},{"a":"Comunicar instrucciones y telemandar","r":["-","-","A","R","-","-","Responsables de campo: R en sus tareas y avisos"]},{"a":"Registrar y confirmar comunicaciones","r":["-","-","A","R","-","-","-"]},{"a":"Verificar estado final y avisar desvíos","r":["-","-","A","R","-","-","Campo, CTZ y Teleoperación: C"]},{"a":"Aportar continuidad al turno","r":["-","-","A","R","-","-","Coordinador entrante: I"]}]},{"c":"P-OMT-02","k":"P-OMT-02","n":"Coordinación operativa, comunicaciones y registro de novedades MT","rol":"Operador MT","prop":"Asegurar comunicaciones operativas claras, oportunas y trazables; registrar novedades MT en tiempo real; consolidar información para continuidad del turno.","alc":"Comunicaciones radiales/telefónicas, ingreso y actualización de novedades, reclamos técnicos, derivaciones, fallas, maniobras, informes diarios y traspaso de pendientes.","disp":"Solicitud de intervención, reporte de campo, reclamo crítico, maniobra, falla, requerimiento del Coordinador de Turno MT o cierre de turno.","ent":"Mensajes de cuadrillas, CTZ, Teleoperación y áreas de apoyo; reclamos; alarmas SCADA; instrucciones del Coordinador de Turno MT.","sal":"Comunicaciones autorizadas y confirmadas, novedades completas, información diaria y registros para la entrega del Coordinador al turno entrante.","sis":"Radio, telefonía operativa, registro de novedades, mapa de reclamos, SCADA, plantilla de informe diario.","seq":[["1","Recibir la comunicación e identificar emisor, ubicación, evento, riesgo, acción y urgencia.","Operador MT","Datos mínimos de la comunicación."],["2","Clasificar inicialmente la novedad y consultar la prioridad operativa con el Coordinador dentro de su conducción del turno.","Operador MT","Prioridad y consulta registradas."],["3","Transmitir la instrucción autorizada por el Coordinador con repetición y confirmación.","Operador MT","Comunicación cerrada."],["4","Registrar fecha, hora, ubicación, responsable, acción y estado y mantener actualizada la novedad.","Operador MT","Registro trazable."],["5","Actualizar hasta cierre, derivación o comunicación del desvío al Coordinador.","Operador MT","Estado actualizado."],["6","Consolidar información diaria y aportar registros y pendientes al Coordinador para la entrega al turno entrante.","Operador MT","Informe y pendientes."],["7","Entregar el turno al Coordinador entrante y comunicar al Subjefe las novedades del cierre.","Coordinador de Turno MT","Entrega y comunicación; no requiere aprobación del Subjefe."]],"ctl":[["Recepción","Información incompleta.","Validar datos mínimos.","Registro con emisor/ubicación/hora."],["Comunicación crítica","Demora en informar riesgo.","Priorizar y escalar de inmediato.","Hora de comunicación."],["Registro","Datos incompletos o tardíos.","Campos obligatorios y clasificación.","Novedad completa."],["Informe diario","Pendientes sin responsable.","Cierre con prioridad y responsable.","Informe validado."]],"raci":[{"a":"Recibir comunicación","r":["-","-","A","R","-","-","Campo, CTZ y Teleoperación: C"]},{"a":"Clasificar y consultar prioridad","r":["-","-","A","R","-","-","-"]},{"a":"Transmitir instrucción autorizada","r":["-","-","A","R","-","-","Responsables de campo: R en confirmación de recepción"]},{"a":"Registrar y mantener novedad","r":["-","-","A","R","-","-","-"]},{"a":"Actualizar y notificar desvíos","r":["-","-","A","R","-","-","-"]},{"a":"Consolidar y aportar continuidad","r":["-","I","A","R","-","-","-"]},{"a":"Entregar turno y comunicar novedades","r":["-","I","A/R","R","-","-","Coordinador entrante: R en recepción"]}]},{"c":"P-OMT-03","k":"P-OMT-03","n":"Incidentes, documentación y actuación del Operador de OCOR según SG-P200","rol":"Operador MT","prop":"Interpretar información técnica, analizar incidentes y actuar como Operador de OCOR desde el CCOD durante consignación y desconsignación MT, siempre bajo autorización y supervisión del Coordinador.","alc":"Actuaciones, órdenes, comunicaciones, registros y verificación del estado final desde el CCOD. La secuencia técnica y las funciones específicas sobre licencias se rigen por SG-P200; no se asignan al Operador responsabilidades de campo.","disp":"Falla, reclamo, maniobra, trabajo programado, emergencia, intervención en zona de trabajo, discrepancia documental o reporte de condición insegura.","ent":"Planos, SCADA, SITEC, SG-P200, comunicación de campo, instrucciones del Coordinador de Turno MT, reportes de responsables de maniobra/trabajo.","sal":"Evento clasificado, actuación autorizada, comunicaciones OCOR-campo y registros trazables, discrepancias y desvíos comunicados y estado final verificado.","sis":"SITEC, GIS, SCADA, mapa de reclamos, bitácora, comunicaciones, SG-P200.","seq":[["1","Interpretar planos, esquemas y documentación para localizar equipos y eventos; contrastar discrepancias con la información operativa.","Operador MT","Referencia técnica y discrepancias registradas."],["2","Analizar inicialmente incidente o reclamo y comunicar clasificación y necesidad de actuación al Coordinador.","Operador MT","Evento y consulta registrados."],["3","Autorizar y supervisar toda actuación del Operador durante el evento o maniobra.","Coordinador de Turno MT","Autorización y seguimiento."],["4","Actuar como Operador de OCOR y comunicar las órdenes y recibir los avisos de campo que le correspondan según SG-P200.","Operador MT","Comunicación cerrada y actuación OCOR trazable."],["5","Registrar actuaciones, confirmaciones, restricciones y referencias de licencias según el procedimiento, diferenciando las tareas del responsable de maniobra y del responsable de trabajo en campo.","Operador MT","Registros con emisor, rol y estado."],["6","Realizar y registrar la actuación del CCOD en desconsignación y estado final según SG-P200, con autorización y supervisión del Coordinador; comunicar desvíos que permanezcan.","Operador MT","Estado final y desvíos documentados."]],"ctl":[["Referencia técnica incorrecta","Localización equivocada de equipo o evento.","Contrastar documentación con estado de red y avisos de campo; consultar al Coordinador ante discrepancia.","Referencia y discrepancia registradas."],["Actuación sin autorización","Desvinculación respecto de la conducción del turno.","Toda actuación requiere autorización y supervisión del Coordinador.","Consigna y autorización."],["Funciones de OCOR y campo","Confusión de ejecución o responsabilidad de seguridad.","Identificar al Operador de OCOR y a los responsables de campo conforme al SG-P200.","Registro con rol y comunicación identificados."],["Consignación, licencias y estado final","Omisión de condiciones del procedimiento aplicable.","Aplicar el SG-P200 dentro de las funciones del OCOR y comunicar desvíos al Coordinador.","Comunicaciones, registros y estado final."]],"raci":[{"a":"Interpretar documentación","r":["-","C","A","R","-","-","Áreas técnicas: C"]},{"a":"Clasificar y comunicar incidente","r":["-","-","A","R","-","-","Campo, CTZ y Teleoperación: C"]},{"a":"Autorizar y supervisar actuación","r":["-","-","A/R","I","-","-","-"]},{"a":"Órdenes y avisos de OCOR","r":["-","-","A","R","-","-","Responsable de maniobra y responsable de trabajo en campo: R en sus funciones SG-P200"]},{"a":"Registrar confirmaciones y restricciones","r":["-","-","A","R","-","-","Responsables de campo: R en sus avisos"]},{"a":"Actuación OCOR y estado final","r":["-","-","A","R","-","-","Responsables de campo: R en sus funciones SG-P200"]}]}];
+const PM_IDX = {};
+PROCESOS_MANUAL.forEach(p => { if(p.c) PM_IDX[p.c] = p; });
+PROCESOS_MANUAL.forEach(p => { if(p.c && !PROC_IDX[p.c]) PROC_IDX[p.c] = {id:p.c, n:p.n, g:"MANUAL", shyma:false}; });
+const ROLES_PROC = ["Jefe CCOD","Subjefe CCOD","Coordinador de Turno MT","Operador MT"];
+const RACI_COLS = ["Jefe CCOD","Subjefe CCOD","Coord. Turno MT","Operador MT","Subjefe Zona A","Jefe Zona A","Campo y soporte"];
+
+function gruposProcEvt(){
+  const g = ROLES_PROC.map(r => ({t: r + " (Manual v1.2)", l: PROCESOS_MANUAL.filter(p => p.c && p.rol === r).map(p => [p.c, p.n])}));
+  g.push({t:"Procesos compartidos y expertiz (Matriz)", l: PROCESOS.filter(p => p.g === "DUP").map(p => [p.id, p.n])});
+  return g;
+}
+function opcionesProcesos(){
+  return gruposProcEvt().map(g => `<optgroup label="${esc(g.t)}">` +
+    g.l.map(([id,n]) => `<option value="${id}">${id} · ${esc(n)}</option>`).join("") + `</optgroup>`).join("");
+}
+function cuentaSim(codigo){
+  let n = 0;
+  ESCENARIOS.forEach(s => s.q.forEach(q => { if(q.proc === codigo) n++; }));
+  return n;
+}
+function procKey(p){ return p.k; }
+function renderProc(){
+  const cont = document.getElementById("procGrid");
+  if(!cont) return;
+  const q = (document.getElementById("pBuscar").value || "").toLowerCase();
+  const fr = document.getElementById("pRol").value;
+  const lista = PROCESOS_MANUAL.filter(p => {
+    if(fr && p.rol !== fr) return false;
+    if(q && !(`${p.c} ${p.n} ${p.prop} ${p.rol}`.toLowerCase().includes(q))) return false;
+    return true;
+  });
+  let h = "";
+  ROLES_PROC.forEach(r => {
+    const del = lista.filter(p => p.rol === r);
+    if(!del.length) return;
+    h += `<h4 class="proc-rol">${esc(r)}</h4><div class="grid">`;
+    del.forEach(p => {
+      const nDoc = p.c ? Object.values(documentos).filter(d => codigosDe(d.codigo).includes(p.c)).length : 0;
+      const nEv = p.c ? Object.values(eventos).filter(e => procsDeEvento(e).includes(p.c)).length : 0;
+      const nSim = p.c ? cuentaSim(p.c) : 0;
+      h += `<div class="doc-card">
+        <span class="tipo-tag">${p.c ? esc(p.c) : "Sin código institucional"}</span>
+        <h3>${esc(p.n)}</h3>
+        <p style="font-size:12.5px;color:#6B7280;">${esc((p.prop || "").slice(0,170))}${(p.prop||"").length > 170 ? "…" : ""}</p>
+        <div class="meta">
+          <span><i class="ti ti-files"></i> ${nDoc} documento${nDoc!==1?"s":""}</span>
+          <span><i class="ti ti-notebook"></i> ${nEv} evento${nEv!==1?"s":""}</span>
+          <span><i class="ti ti-target-arrow"></i> ${nSim} pregunta${nSim!==1?"s":""} de práctica</span>
+        </div>
+        <div class="actions"><button onclick="abrirProc('${p.k}')"><i class="ti ti-eye"></i> Ver proceso y RACI</button></div>
+      </div>`;
+    });
+    h += `</div>`;
+  });
+  cont.innerHTML = h || `<div class="empty">No se encontraron procesos.</div>`;
+}
+function claseRaci(t){
+  t = String(t || "").trim();
+  if(!t || t === "-") return "r-no";
+  let m = /^(A\/R|A|R|C|I)$/.exec(t);
+  if(!m) m = /: (A\/R|A|R|C|I)\b/.exec(t);
+  if(!m) return "r-txt";
+  return {"A/R":"r-ar","A":"r-a","R":"r-r","C":"r-c","I":"r-i"}[m[1]];
+}
+function abrirProc(k){
+  const p = PROCESOS_MANUAL.find(x => x.k === k);
+  if(!p) return;
+  const sec = (t, v) => v ? `<div class="ev-sec"><div class="ev-lbl">${t}</div><p>${esc(v)}</p></div>` : "";
+  const tabla = (head, rows) => rows.length ? `<div class="cob-tablewrap" style="margin-bottom:14px;"><table class="cob" style="min-width:560px;"><thead><tr>${head.map(x => `<th>${x}</th>`).join("")}</tr></thead><tbody>${rows.map(r => `<tr>${r.map(c => `<td>${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>` : "";
+  const docs = p.c ? Object.entries(documentos).filter(([id,d]) => codigosDe(d.codigo).includes(p.c)) : [];
+  const nEv = p.c ? Object.values(eventos).filter(e => procsDeEvento(e).includes(p.c)).length : 0;
+  const escs = p.c ? ESCENARIOS.filter(s => s.q.some(q => q.proc === p.c)) : [];
+  document.getElementById("procModalBody").innerHTML = `
+    <span class="tipo-tag">${p.c ? esc(p.c) : "Proceso complementario, sin código institucional"}</span>
+    <h3 style="font-size:18px;margin:6px 0 2px;color:var(--verde-oscuro);">${esc(p.n)}</h3>
+    <div class="note" style="margin:0 0 12px;">Rol: ${esc(p.rol)} · Fuente: Manual de Procesos CCOD v1.2 (13/10/2026), en validación</div>
+    ${sec("Propósito", p.prop)}${sec("Alcance", p.alc)}${sec("Disparadores", p.disp)}${sec("Entradas", p.ent)}${sec("Salidas / entregables", p.sal)}${sec("Sistemas y herramientas", p.sis)}
+    <h4 class="proc-h">Secuencia del proceso</h4>
+    ${tabla(["Paso","Actividad","Responsable","Evidencia"], p.seq)}
+    <h4 class="proc-h">Puntos de control y riesgos</h4>
+    ${tabla(["Punto crítico","Riesgo","Control","Evidencia"], p.ctl)}
+    <h4 class="proc-h">Matriz RACI</h4>
+    <div class="cob-tablewrap"><table class="cob raci" style="min-width:720px;"><thead><tr><th>Actividad o decisión</th>${RACI_COLS.map(c => `<th>${esc(c)}</th>`).join("")}</tr></thead><tbody>
+      ${p.raci.map(r => `<tr><td>${esc(r.a)}</td>${r.r.map(v => `<td class="${claseRaci(v)}">${esc(v === "-" ? "" : v)}</td>`).join("")}</tr>`).join("")}
+    </tbody></table></div>
+    <div class="note" style="margin-top:8px;"><b>R</b> ejecuta · <b>A</b> responde por la actividad (una sola por actividad) · <b>C</b> consultado · <b>I</b> informado · vacío: no participa</div>
+    <h4 class="proc-h">En la Biblioteca</h4>
+    <div class="prior-row"><i class="ti ti-files"></i><span>${docs.length ? docs.map(([id,d]) => { const hr = urlSegura(d.enlace); return hr ? `<a href="${esc(hr)}" target="_blank" rel="noopener">${esc(d.titulo||"(sin título)")}</a>` : esc(d.titulo||"(sin título)"); }).join(" · ") : "Ningún documento tiene este código en su ficha todavía."}</span></div>
+    <div class="prior-row"><i class="ti ti-notebook"></i><span>${nEv ? `${nEv} evento${nEv!==1?"s":""} en la Bitácora` : "Sin eventos vinculados"}</span>${nEv ? `<button class="linkbtn" onclick="cerrarProc();verEventosProc('${esc(p.c)}')">Ver eventos</button>` : ""}</div>
+    <div class="prior-row"><i class="ti ti-target-arrow"></i><span>${escs.length ? "Se practica en: " + escs.map(s => esc(s.titulo)).join(" · ") : "Todavía no hay escenarios del simulador para este proceso."}</span>${escs.length ? `<button class="linkbtn" onclick="cerrarProc();cambiarVista('sim');simStart('${escs[0].id}')">Practicar</button>` : ""}</div>`;
+  document.getElementById("procOverlay").style.display = "flex";
+  const m = document.getElementById("procModalBody").parentNode; m.scrollTop = 0;
+}
+function cerrarProc(){ document.getElementById("procOverlay").style.display = "none"; }
+document.getElementById("closeProc").addEventListener("click", cerrarProc);
+document.getElementById("procOverlay").addEventListener("click", ev => { if(ev.target.id === "procOverlay") cerrarProc(); });
+["pBuscar","pRol"].forEach(id => {
+  document.getElementById(id).addEventListener("input", renderProc);
+  document.getElementById(id).addEventListener("change", renderProc);
+});
+(function(){
+  const sel = document.getElementById("pRol");
+  sel.innerHTML = `<option value="">Todos los roles</option>` + ROLES_PROC.map(r => `<option>${esc(r)}</option>`).join("");
+})();
+
+/* =====================================================================
+   SIMULADOR: escenarios de práctica con resultados del equipo
+   ===================================================================== */
+const NODO_SIM = "biblioteca_simulaciones";
+const ESCENARIOS = [{"id":"calasanz","titulo":"Traspaso de carga Calasanz → Nueva Córdoba","rol":"Operador MT y Coordinador de Turno MT","fuente":"Protocolo CCOD PM 02 · Traspaso de carga E.T. Calasanz – E.T. Nueva Córdoba","proc":"P-OMT-01","desc":"Secuencia de traspaso y reposición, condiciones previas y qué hacer cuando algo no sale como estaba previsto.","q":[{"id":"calasanz-1","t":"orden","situ":"","preg":"Ordená la secuencia de traspaso de carga, del primer al último paso.","items":["Pedir a C.T.Z. que iguale la tensión entre Barra 3 de Calasanz y Barra 2 de Nueva Córdoba","Cerrar la interconexión Calasanz en E.T. Nueva Córdoba, celda D2-2","Cerrar la interconexión Calasanz en E.T. Nueva Córdoba, celda D1-2","Posicionar la pantalla SCADA en E.T. Calasanz y cerrar la interconexión Nueva Córdoba, celda D5-1","Cerrar la interconexión Nueva Córdoba en E.T. Calasanz, celda D1-1","Pedir a C.T.Z. que abra el interruptor de 13,2 kV de TD 1 en E.T. Calasanz","Avisar al Jefe de Mesa, Coordinadores y Subjefatura que concluyó el traspaso"],"ref":"Protocolo CCOD PM 02, punto 4: Secuencia de traspaso de carga (pasos 1 a 7).","proc":"P-OMT-01"},{"id":"calasanz-2","t":"op","situ":"Estás en el paso 1. El operador de C.T.Z. te dice que está igualando la tensión entre las barras, pero todavía no confirmó.","preg":"¿Qué hacés?","o":[["Esperar la confirmación de que las tensiones están igualadas antes de cerrar la celda D2-2",1,""],["Cerrar la celda D2-2 y confirmar la tensión después",0,"El paso 1 dice «continuar una vez igualadas». No se cierra nada hasta tener la confirmación."],["Cerrar primero D1-2, que es la otra celda de Nueva Córdoba",0,"El orden es D2-2 y luego D1-2, y ambos después de la igualación de tensión confirmada."],["Pedir a C.T.Z. que abra el interruptor de 13,2 kV de TD 1 para ganar tiempo",0,"Esa apertura es el paso 6, después de cerrar las cuatro interconexiones."]],"ref":"Protocolo CCOD PM 02, paso 1 y criterio de seguridad: «No continuar por presunción».","proc":"P-OMT-01"},{"id":"calasanz-3","t":"op","situ":"Cerraste D2-2 y D1-2 en Nueva Córdoba. Ahora hay que cerrar la celda D5-1, que está en la otra estación.","preg":"¿Qué hacés primero?","o":[["Posicionar la pantalla SCADA en E.T. Calasanz",1,""],["Cerrar D5-1 desde la pantalla de Nueva Córdoba, es el mismo mando",0,"Cada mando se da en la pantalla de la estación correcta. D5-1 está en Calasanz."],["Pedir a C.T.Z. que la cierre",0,"C.T.Z. confirma condiciones en 132 kV, iguala tensiones y opera el 13,2 kV de TD 1. Las interconexiones las opera el Operador CCOD."],["Esperar la autorización del Jefe de Mesa para cada celda",0,"La autorización operativa se verifica antes de empezar. Lo que corresponde en este punto es ir a la pantalla correcta."]],"ref":"Protocolo CCOD PM 02, paso 4 y condición de identificación positiva de estación y celda antes de cada mando.","proc":"P-OMT-01"},{"id":"calasanz-4","t":"op","situ":"En el paso 5, al mandar el cierre de D1-1 en Calasanz, el SCADA rechaza el mando.","preg":"¿Cómo seguís?","o":[["Detener la secuencia y escalar al Jefe de Mesa, Coordinador y Subjefatura",1,""],["Repetir el mando hasta que lo acepte",0,"Un mando rechazado es una condición distinta de la prevista: se detiene y se escala."],["Saltar al paso 6 y volver a D1-1 al final",0,"No se altera la secuencia. Seguir sin resolver el rechazo es continuar por presunción."],["Abrir otra interconexión para compensar",0,"El protocolo prohíbe compensar una condición no confirmada con una maniobra adicional."]],"ref":"Protocolo CCOD PM 02, punto 3: ante mando rechazado, detener la secuencia y escalar; no compensar con maniobras adicionales.","proc":"P-OMT-01"},{"id":"calasanz-5","t":"op","situ":"","preg":"¿Quién opera el interruptor de 13,2 kV de TD 1 en E.T. Calasanz?","o":[["El operador de C.T.Z., a pedido del Operador CCOD",1,""],["El Operador CCOD desde SCADA",0,"En el protocolo, el Operador CCOD ejecuta y registra la secuencia de las interconexiones. El 13,2 kV de TD 1 lo opera C.T.Z."],["El Jefe de Mesa",0,"El Jefe de Mesa recibe el aviso de conclusión y supervisa el estado resultante."],["Personal de campo del Servicio Móvil",0,"El protocolo no asigna esa operación a personal de campo."]],"ref":"Protocolo CCOD PM 02, punto 2 (Roles y comunicaciones) y paso 6.","proc":"P-OMT-01"},{"id":"calasanz-6","t":"op","situ":"","preg":"¿Quién coordina la reposición programada?","o":[["El Subjefe y el Coordinador del CCOD",1,""],["El operador de C.T.Z. por su cuenta",0,"C.T.Z. interviene en las etapas que se le piden, pero la coordinación es del CCOD."],["El Jefe CCOD y el Jefe de Zona A",0,"El protocolo asigna la coordinación a Subjefatura y Coordinador."],["El Operador CCOD",0,"El Operador ejecuta y registra. La coordinación del horario y la validación de la secuencia son de Subjefatura y Coordinador."]],"ref":"Protocolo CCOD PM 02, punto 5 y tabla de roles.","proc":"P-OMT-01"},{"id":"calasanz-7","t":"op","situ":"Empieza la reposición.","preg":"¿Qué se le pide primero a C.T.Z. en el paso 1?","o":[["Que cierre el interruptor de 13,2 kV de TD 1 y después iguale la tensión entre Barra 3 de Calasanz y Barra 2 de Nueva Córdoba",1,""],["Que iguale la tensión y después cierre el interruptor de 13,2 kV de TD 1",0,"El orden está invertido: primero se cierra el 13,2 kV de TD 1 y luego se iguala la tensión."],["Que abra el interruptor de 13,2 kV de TD 1",0,"Abrirlo es el paso 6 del traspaso. En la reposición se lo cierra."],["Que abra las celdas D5-1 y D1-1",0,"Esas interconexiones las abre el Operador CCOD en el paso 2, después de confirmado el paso 1."]],"ref":"Protocolo CCOD PM 02, punto 5.1, paso 1.","proc":"P-OMT-01"},{"id":"calasanz-8","t":"op","situ":"Terminó la reposición: ya abriste D5-1 y D1-1 en Calasanz y concluyeron los trabajos.","preg":"¿Qué corresponde hacer con las interconexiones?","o":[["Inhibirlas y avisar al operador de C.T.Z. que los trabajos concluyeron",1,""],["Dejarlas cerradas e informar solo al Coordinador",0,"En la reposición se abren y se inhiben, y se avisa a C.T.Z."],["Abrirlas sin inhibir, para poder volver a cerrarlas rápido",0,"El paso 3 indica inhibirlas al concluir los trabajos."],["Inhibirlas y avisar en el cambio de turno",0,"El aviso a C.T.Z. es parte del mismo paso, no se difiere."]],"ref":"Protocolo CCOD PM 02, punto 5.1, pasos 2 y 3.","proc":"P-OMT-01"}]},{"id":"fiat","titulo":"Cambio de alimentación FIAT A y B","rol":"Operador MT y Coordinador de Turno MT","fuente":"Diagrama de proceso · Maniobra de cambio de alimentación FIAT A y B","proc":"P-OMT-01","desc":"Qué hace el Operador del CCOD, qué hace el campo y qué barras siguen energizadas durante la maniobra.","q":[{"id":"fiat-1","t":"op","situ":"","preg":"¿A qué celdas corresponde el Alimentador FIAT A (1) / Llegada 1?","o":[["C-1 en S.E.A. FIAT y celda 13 en E.T. Interfábrica",1,""],["C-0 en S.E.A. FIAT y celda 14 en E.T. Interfábrica",0,"Eso corresponde al Alimentador FIAT B (2) / Llegada 2."],["C-1 en E.T. Interfábrica y celda 13 en S.E.A. FIAT",0,"Las celdas C están en S.E.A. FIAT y las numeradas en E.T. Interfábrica."],["Celdas 13 y 14 de E.T. Interfábrica",0,"Cada alimentador tiene su celda de llegada en S.E.A. FIAT y la del alimentador en E.T. Interfábrica."]],"ref":"Diagrama 1, paso 1: identificación de celdas y alimentadores.","proc":"P-OMT-01"},{"id":"fiat-2","t":"orden","situ":"","preg":"Ordená las acciones del Operador CCOD y los pedidos que hace durante la maniobra.","items":["Abrir la Llegada en la celda correspondiente de S.E.A. FIAT","Abrir el Alimentador FIAT en la celda correspondiente de E.T. Interfábrica","Avisar a los servicios de ambas puntas: proceder según protocolo de descargo","Recibir la entrega de celdas libres y en condiciones para mantenimiento","Solicitar a Mantenimiento Estaciones la entrega de la celda del alimentador","Solicitar a Servicios la normalización: retirar puesta a tierra, tapar celdas e insertar y cerrar interruptores"],"ref":"Diagrama 2, pasos 1, 2, 3, 10, 11 y 13 (carril del Operador CCOD).","proc":"P-OMT-01"},{"id":"fiat-3","t":"op","situ":"Los servicios te avisan que las celdas están libres y vas a pedir la entrega de la celda del alimentador a Mantenimiento Estaciones.","preg":"¿En qué estado están las barras de S.E.A. FIAT y de E.T. Interfábrica?","o":[["Permanecen energizadas y en servicio",1,""],["Están desenergizadas porque se abrieron la Llegada y el Alimentador",0,"El diagrama marca una precaución: las barras permanecen energizadas. Lo que se aísla es la celda del alimentador."],["Solo la de E.T. Interfábrica queda energizada",0,"Ambas barras permanecen energizadas y en servicio."],["Quedan desenergizadas hasta colocar las puestas a tierra",0,"Las puestas a tierra se colocan sobre los conductores de la celda, no desenergizan las barras."]],"ref":"Diagrama 2, paso 11: precaución, barras de S.E.A. FIAT y E.T. Interfábrica energizadas y en servicio.","proc":"P-OMT-01"},{"id":"fiat-4","t":"op","situ":"","preg":"¿Quién verifica la apertura visible, extrae los interruptores, detecta ausencia de tensión, descarga los conductores y coloca la puesta a tierra?","o":[["Servicios de campo / Servicio Móvil, en ambas puntas",1,""],["El Operador CCOD por telemando",0,"El Operador abre las celdas desde el CCOD y da el aviso. Las tareas sobre el equipo son del personal de campo."],["El Personal de Mantenimiento Estaciones",0,"Mantenimiento Estaciones recibe la celda entregada y ejecuta los trabajos de mantenimiento."],["El Jefe de Turno",0,"El Jefe de Turno autoriza y supervisa desde el CCOD."]],"ref":"Diagrama 2, pasos 4 a 9 (carril de Servicios de campo).","proc":"P-OMT-01"},{"id":"fiat-5","t":"op","situ":"","preg":"¿Hay que operar con C.T.Z. en esta maniobra?","o":[["No: las dos llegadas de S.E.A. FIAT trabajan en paralelo y salen de la misma barra en E.T. Interfábrica",1,""],["Sí, siempre se le pide a C.T.Z. que abra la barra",0,"La nota del proceso dice que esta maniobra no requiere operar con C.T.Z."],["Sí, pero solo para el Alimentador B",0,"No se necesita C.T.Z. para ninguno de los dos alimentadores."],["Sí, para igualar tensiones antes de abrir",0,"En el traspaso Calasanz–Nueva Córdoba se iguala tensión con C.T.Z. En esta maniobra no."]],"ref":"Diagrama 1, nota de proceso.","proc":"P-OMT-01"},{"id":"fiat-6","t":"op","situ":"Terminaste la maniobra del Alimentador FIAT A.","preg":"¿Cómo sigue el proceso?","o":[["Se aplica el mismo procedimiento al Alimentador FIAT B / Llegada 2 (celdas C-0 y 14)",1,""],["Queda terminado: la maniobra era solo del Alimentador A",0,"El proceso termina cuando los alimentadores FIAT A y B están normalizados."],["Solo se hace la normalización del B",0,"El subproceso completo, con apertura y descargo, se aplica también al B."],["Se inicia un proceso nuevo con otra autorización",0,"Es el mismo subproceso, aplicado dos veces desde el Diagrama 1."]],"ref":"Diagrama 1, pasos 3 y 4.","proc":"P-OMT-01"},{"id":"fiat-7","t":"op","situ":"","preg":"¿Quién supervisa y autoriza el inicio de la maniobra?","o":[["El Jefe de Turno CCOD (Coordinador de Turno MT)",1,""],["El Operador de OCOR por su cuenta",0,"El Operador actúa siempre bajo autorización y supervisión del Coordinador."],["El Personal de Mantenimiento Estaciones",0,"Mantenimiento recibe la celda entregada, no autoriza el inicio."],["Servicios de campo",0,"Servicios ya están posicionados en ambas puntas y esperan el aviso del Operador."]],"ref":"Diagrama 1, paso 2. El Manual v1.2 usa la denominación Coordinador de Turno MT.","proc":"P-JTMT-01"}]},{"id":"roles","titulo":"Roles y autoridad en el turno","rol":"Todos los roles","fuente":"Manual de Procesos CCOD v1.2 · Estructura y reglas comunes; P-JTMT-01; P-OMT-01","proc":"P-JTMT-01","desc":"Quién autoriza, quién firma, a quién se escala y quién cierra el turno.","q":[{"id":"roles-1","t":"op","situ":"Un Operador MT va a ejecutar una maniobra de servicio.","preg":"¿Qué necesita?","o":[["Autorización y supervisión del Coordinador de Turno MT",1,""],["Solo su criterio, si es urgente",0,"Toda actuación del Operador MT requiere autorización y supervisión del Coordinador."],["La firma de Subjefatura en todos los casos",0,"Subjefatura firma y autoriza las maniobras programadas, no toda actuación."],["La autorización del Jefe CCOD",0,"En el turno, el Operador depende del Coordinador."]],"ref":"Manual v1.2, regla de seguridad operacional y estructura común.","proc":"P-JTMT-01"},{"id":"roles-2","t":"op","situ":"","preg":"¿Quién firma y autoriza la programación de una maniobra programada?","o":[["El Subjefe CCOD",1,""],["El Coordinador de Turno MT",0,"El Coordinador recibe la programación autorizada y autoriza y supervisa las actuaciones durante el turno."],["El Operador MT",0,"El Operador lleva la maniobra de inicio a fin, autorizado y supervisado."],["El Jefe de Zona A",0,"Zona A canaliza asuntos escalables, no firma la programación del CCOD."]],"ref":"Manual v1.2, proceso complementario «Autorización y realización de maniobras programadas».","proc":"P-JTMT-01"},{"id":"roles-3","t":"op","situ":"Surge un problema del turno que supera lo que puede resolver el CCOD, y el Subjefe de Zona A no está.","preg":"¿A quién se escala?","o":[["Al Jefe de Zona A",1,""],["Directamente a Gerencia",0,"La comunicación con Gerencia se canaliza por Zona A, sin comunicación directa del CCOD."],["Se espera a que vuelva el Subjefe de Zona A",0,"Ante ausencia o por envergadura del problema, se escala al Jefe de Zona A."],["Se resuelve dentro del turno sin escalar",0,"Si el problema excede el alcance, hay que escalar por el circuito confirmado."]],"ref":"Manual v1.2, regla de escalamiento.","proc":"P-JTMT-01"},{"id":"roles-4","t":"op","situ":"Terminó tu turno como Coordinador.","preg":"¿Necesitás aprobación del Subjefe para cerrar y entregar?","o":[["No: cerrás y entregás al Coordinador entrante y comunicás las novedades al Subjefe",1,""],["Sí, el Subjefe tiene que aprobar el cierre",0,"La entrega de turno no requiere aprobación del Subjefe."],["Sí, la aprueba el Jefe CCOD",0,"No hay aprobación del Jefe CCOD para la entrega de turno."],["No, y las novedades solo se comunican si el entrante las pide",0,"El Coordinador comunica las novedades al Subjefe."]],"ref":"Manual v1.2, regla de entrega de turno y P-JTMT-01.","proc":"P-JTMT-01"},{"id":"roles-5","t":"op","situ":"Un integrante del equipo solicita una licencia.","preg":"¿Quién la autoriza y quién la administra?","o":[["Jefatura la autoriza; Subjefatura la administra y organiza la cobertura",1,""],["Subjefatura la autoriza y la administra",0,"Jefatura autoriza las licencias del personal. Subjefatura las administra."],["El Coordinador la autoriza y la registra",0,"El Coordinador registra ingresos y salidas MT/BT, no autoriza licencias."],["Jefatura la autoriza y la administra",0,"La administración, la roseta y la cobertura de ausencias son de Subjefatura."]],"ref":"Manual v1.2, proceso complementario «Gestión del personal, roseta y cobertura del servicio».","proc":"P-JTMT-01"},{"id":"roles-6","t":"op","situ":"","preg":"¿Quién actúa como Operador de OCOR desde el CCOD?","o":[["El Operador MT",1,""],["El Coordinador de Turno MT",0,"El Coordinador autoriza y supervisa las actuaciones del Operador."],["El responsable de maniobra en campo",0,"Ese rol es de campo y se rige por el SG-P200."],["El Subjefe CCOD",0,"Subjefatura organiza y soporta; no actúa como OCOR en el turno."]],"ref":"Manual v1.2, definición de OCOR.","proc":"P-OMT-03"},{"id":"roles-7","t":"op","situ":"","preg":"¿Quién registra los ingresos y salidas de operadores MT y BT durante el turno?","o":[["El Coordinador de Turno MT",1,""],["El Subjefe CCOD",0,"Subjefatura administra y evalúa al personal. El registro de presencia lo hace el Coordinador."],["El Operador MT",0,"El Operador MT es informado, el registro es del Coordinador."],["El Jefe CCOD",0,"El Jefe CCOD autoriza las licencias, no registra presencia."]],"ref":"Manual v1.2, P-JTMT-01 y «Gestión del personal».","proc":"P-JTMT-01"}]},{"id":"consig","titulo":"Consignación y desconsignación MT: quién hace qué","rol":"Operador MT y Coordinador de Turno MT","fuente":"Manual de Procesos CCOD v1.2 · P-JTMT-02 (interfaces con SG-P200)","proc":"P-JTMT-02","desc":"Roles del Operador de OCOR, del Coordinador y de los responsables de campo. La secuencia técnica es la del SG-P200.","q":[{"id":"consig-1","t":"orden","situ":"","preg":"Ordená las actuaciones, desde la orden de desvincular la zona hasta el cierre.","items":["El Operador (OCOR) ordena desvincular la zona inhibida, con autorización y supervisión del Coordinador","El responsable de maniobra en campo hace la apertura y el bloqueo y avisa la finalización","El Operador registra el aviso y comunica la orden para establecer la zona de trabajo","El responsable de trabajo en campo ejecuta los trabajos y cumple las responsabilidades de seguridad","El Operador recibe los avisos de finalización y actúa como OCOR en la desconsignación","El Operador verifica y registra el estado final y escala los desvíos o restricciones"],"ref":"Manual v1.2, P-JTMT-02, pasos 2, 3, 4, 5, 8 y 9.","proc":"P-JTMT-02"},{"id":"consig-2","t":"op","situ":"El responsable de trabajo en campo está ejecutando los trabajos.","preg":"¿Cuál es el rol del Coordinador desde el CCOD?","o":[["Supervisar las actuaciones, restricciones y comunicaciones, sin asumir la ejecución ni las responsabilidades de campo",1,""],["Ejecutar él la desconsignación en el terreno",0,"El Coordinador no asume la ejecución de campo."],["Asumir la seguridad de campo del trabajo",0,"La seguridad de campo corresponde al responsable de trabajo, según SG-P200."],["No interviene hasta el cierre del turno",0,"Supervisa desde el CCOD durante toda la actuación."]],"ref":"Manual v1.2, P-JTMT-02, paso 7.","proc":"P-JTMT-02"},{"id":"consig-3","t":"op","situ":"","preg":"¿Quién hace la apertura y el bloqueo en campo?","o":[["El responsable de maniobra en campo",1,""],["El Operador MT",0,"El Operador ordena y comunica desde el CCOD como OCOR."],["El Coordinador de Turno MT",0,"El Coordinador autoriza y supervisa desde el CCOD."],["El responsable de trabajo en campo",0,"Ese rol realiza los trabajos y cumple la seguridad del trabajo. La apertura y el bloqueo son del responsable de maniobra."]],"ref":"Manual v1.2, P-JTMT-02, paso 3 y definiciones de responsables de campo.","proc":"P-JTMT-02"},{"id":"consig-4","t":"op","situ":"Recibís un aviso de campo sobre la finalización de los trabajos y la información está incompleta.","preg":"¿Qué corresponde?","o":[["Registrar el aviso, contrastar la información bajo supervisión del Coordinador y comunicar el desvío según SG-P200",1,""],["Dar por finalizada la desconsignación por presunción",0,"No se asume el estado real sin confirmación. Se contrasta y se comunica el desvío."],["Completar el dato con lo que suele pasar en estos trabajos",0,"El control exige registrar avisos y contrastar información, no completar datos por costumbre."],["Esperar al cambio de turno para consultarlo",0,"Un desvío se comunica y escala en el momento."]],"ref":"Manual v1.2, P-JTMT-02, puntos de control: confirmación o información incompleta.","proc":"P-JTMT-02"},{"id":"consig-5","t":"op","situ":"","preg":"¿El Manual de Procesos define la secuencia técnica de consignación y desconsignación?","o":[["No: la secuencia técnica y las condiciones de licencias se rigen por SG-P200. El Manual describe las interfaces organizacionales",1,""],["Sí, reemplaza al SG-P200",0,"El Manual aclara que no sustituye al SG-P200."],["Sí, pero solo para maniobras programadas",0,"El alcance del proceso son las interfaces, para cualquier actuación del CCOD."],["No, y el SG-P200 solo aplica al personal de campo",0,"El SG-P200 también define las responsabilidades del OCOR y rige las funciones sobre licencias."]],"ref":"Manual v1.2, P-JTMT-02, alcance.","proc":"P-JTMT-02"}]},{"id":"porta","titulo":"Reclamo por cortes: análisis SCADA de Cámara PORTA","rol":"Operador MT y analistas del COD","fuente":"Reporte Técnico SCADA INF-SCADA-2025-001 · Cámara PORTA, E.T. Jardín","proc":"","desc":"Cómo se interpreta un registro SCADA ante un reclamo y cómo se llega a la causa raíz.","q":[{"id":"porta-1","t":"op","situ":"Un cliente reclama cortes reiterados y los atribuye al interruptor SF6 de su cámara. En SCADA ves eventos ARRANQUE DE PROTECCIONES.","preg":"¿Qué significa ese evento?","o":[["El relé detectó una perturbación sobre su umbral; no implica necesariamente que el interruptor haya abierto",1,""],["El interruptor abrió siempre",0,"El evento indica detección de perturbación. La apertura efectiva es otro hecho y a veces ocurre."],["El interruptor está fallado",0,"El análisis concluyó que los cortes no los provoca el interruptor en sí."],["Es una alarma de mantenimiento sin relación con la red",0,"Responde a perturbaciones de la red."]],"ref":"Reporte INF-SCADA-2025-001, punto 4.2.","proc":""},{"id":"porta-2","t":"op","situ":"","preg":"¿Cómo se asocia cada evento SCADA con su causa?","o":[["Cruzando día, hora y fecha del registro con la confirmación de campo del capataz y la guardia",1,""],["Contando cuántos eventos hubo en el mes",0,"La asociación se hace evento por evento."],["Revisando la versión del equipo del fabricante",0,"El análisis se apoya en registros y confirmación de campo."],["Preguntándole al cliente a qué hora cortó",0,"Se usan los registros SCADA y la confirmación del personal de EPEC en terreno."]],"ref":"Reporte INF-SCADA-2025-001, punto 4.2.","proc":""},{"id":"porta-3","t":"op","situ":"El conjuntor 2-3 está cerrado y hay una perturbación en la Barra 2 (TD2).","preg":"¿Qué pasa con la protección del SF6 de PORTA, en la Barra 3?","o":[["La perturbación se propaga hacia la Barra 3 y puede afectar el relé del SF6",1,""],["Queda aislada en la Barra 2",0,"Con el conjuntor cerrado hay continuidad eléctrica entre las barras."],["No afecta si el interruptor SF6 está cerrado",0,"Lo que se ve afectado es el relé de protección, aunque el interruptor esté cerrado."],["Solo afecta a los distribuidores de la Barra 2",0,"Se propaga también a Barra 3, y eso es un factor agravante."]],"ref":"Reporte INF-SCADA-2025-001, punto 4.1.","proc":""},{"id":"porta-4","t":"op","situ":"C.T.Z. Capital hace maniobras en alta tensión con una falla a tierra transitoria de 1 a 5 A.","preg":"¿Qué se ve en SCADA?","o":[["ARRANQUE DE PROTECCIONES sin apertura del interruptor SF6",1,""],["Apertura del SF6 en todos los casos",0,"El reporte documenta arranques sin apertura efectiva."],["Nada: esas maniobras no se reflejan en SCADA",0,"Se reflejan en SCADA en un lapso corto y se corroboraron con el campo."],["Una falla propia del interruptor",0,"La causa es externa al equipo."]],"ref":"Reporte INF-SCADA-2025-001, punto 5: causa raíz confirmada.","proc":""},{"id":"porta-5","t":"op","situ":"","preg":"¿Cuál es la conclusión técnica del informe sobre los cortes reclamados?","o":[["Responden a perturbaciones externas de red que activan el relé, no a una falla del interruptor SF6",1,""],["Hay una falla del interruptor SF6 y se debe reemplazar",0,"El informe concluye lo contrario."],["El relé es el único responsable",0,"El informe identifica tres causas de red, entre ellas la propagación por el conjuntor y las maniobras de C.T.Z."],["No es posible identificar una causa",0,"Se identificaron y confirmaron tres causas raíz."]],"ref":"Reporte INF-SCADA-2025-001, punto 6: conclusiones.","proc":""},{"id":"porta-6","t":"op","situ":"","preg":"¿Qué acción recomendada tiene prioridad ALTA?","o":[["Evaluar la apertura del conjuntor 2-3 o implementar selectividad lógica entre barras",1,""],["Revisar la parametrización del relé del SF6",0,"Tiene prioridad media."],["Implementar alertas diferenciadas en SCADA entre arranque y apertura efectiva",0,"Tiene prioridad baja."],["Coordinar con C.T.Z. un aviso previo de maniobras en AT",0,"Tiene prioridad media."]],"ref":"Reporte INF-SCADA-2025-001, punto 7: recomendaciones.","proc":""}]}];
+let simFase = "lista", simEsc = null, simI = 0, simResp = [], simGuardado = false;
+let simData = {porEsc:{}, preg:{}, mios:[], todos:[], total:0}, simError = "";
+let casoAbierto = {}, casoTxt = {};
+
+function hashStr(s){ let h = 2166136261; for(let i = 0; i < s.length; i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+function shuf(n, seed){
+  const a = []; for(let i = 0; i < n; i++) a.push(i);
+  let s = hashStr(seed) || 1;
+  for(let i = n-1; i > 0; i--){ s = (Math.imul(s, 1664525) + 1013904223) >>> 0; const j = s % (i+1); const t = a[i]; a[i] = a[j]; a[j] = t; }
+  return a;
+}
+function ordenInicial(q){
+  const a = shuf(q.items.length, q.id);
+  if(a.every((v,i) => v === i)){ const t = a[0]; a[0] = a[1]; a[1] = t; }
+  return a;
+}
+function escById(id){ return ESCENARIOS.find(s => s.id === id); }
+
+function cargarSimulaciones(){
+  db.ref(NODO_SIM).off();
+  db.ref(NODO_SIM).on("value", snap => {
+    simError = "";
+    const raw = snap.val() || {};
+    const aut = autorizadoNombres();
+    const d = {porEsc:{}, preg:{}, mios:[], todos:[], total:0};
+    Object.values(raw).forEach(r => {
+      if(!r || !r.escenario || !(Number(r.total) > 0)) return;
+      d.total++;
+      const pe = d.porEsc[r.escenario] = d.porEsc[r.escenario] || {n:0, suma:0};
+      pe.n++; pe.suma += Number(r.aciertos) / Number(r.total);
+      Object.entries(r.detalle || {}).forEach(([qid, v]) => {
+        const x = d.preg[qid] = d.preg[qid] || {n:0, f:0};
+        x.n++; if(!v) x.f++;
+      });
+      const reg = {esc:r.escenario, titulo:r.titulo || "", a:Number(r.aciertos), t:Number(r.total), fecha:r.fecha || "", ts:Number(r.ts) || 0};
+      if(currentUser && r.uid === currentUser.uid) d.mios.push(reg);
+      if(aut) d.todos.push(Object.assign({email:r.email || ""}, reg));
+    });
+    d.mios.sort((a,b) => b.ts - a.ts); d.todos.sort((a,b) => b.ts - a.ts);
+    simData = d;
+    if(simFase === "lista") renderSim();
+  }, err => { simError = err.message; if(simFase === "lista") renderSim(); });
+}
+function limpiarSim(){
+  try{ db.ref(NODO_SIM).off(); }catch(e){}
+  simData = {porEsc:{}, preg:{}, mios:[], todos:[], total:0};
+  simFase = "lista"; simEsc = null; simResp = [];
+}
+
+function simStart(id){
+  const s = escById(id); if(!s) return;
+  simEsc = s; simI = 0; simGuardado = false; simFase = "run";
+  simResp = s.q.map(q => ({sel:null, ord: q.t === "orden" ? ordenInicial(q) : null, hecho:false, ok:false}));
+  renderSim(); window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function renderSim(){
+  const b = document.getElementById("simBody");
+  if(!b) return;
+  if(simFase === "run") b.innerHTML = simPregunta();
+  else if(simFase === "fin") b.innerHTML = simFin();
+  else b.innerHTML = simLista();
+}
+
+function simLista(){
+  const casos = Object.entries(eventos).filter(([id,e]) => e.practica);
+  let h = `<div class="cob-intro">Practicá con situaciones reales del COD. Cada respuesta se corrige en el momento y te muestra qué dice el documento. Las respuestas correctas salen de los manuales y protocolos cargados en esta Biblioteca; el resultado queda registrado para ver dónde conviene reforzar.</div>`;
+  if(simError) h += `<div class="aviso rojo"><span>No se pudieron leer los resultados (${esc(simError)}). Los escenarios funcionan igual, pero no se van a poder guardar hasta revisar las reglas de Firebase.</span></div>`;
+  h += `<h4 class="proc-rol">Escenarios</h4><div class="grid">`;
+  ESCENARIOS.forEach(s => {
+    const pe = simData.porEsc[s.id];
+    const mi = simData.mios.filter(x => x.esc === s.id);
+    const mejor = mi.length ? Math.max.apply(null, mi.map(x => Math.round(100 * x.a / x.t))) : null;
+    h += `<div class="doc-card">
+      <span class="tipo-tag">${esc(s.rol)}</span>
+      <h3>${esc(s.titulo)}</h3>
+      <p style="font-size:12.5px;color:#6B7280;">${esc(s.desc)}</p>
+      <div class="meta"><span><i class="ti ti-list-check"></i> ${s.q.length} preguntas</span>
+        ${pe ? `<span><i class="ti ti-users"></i> ${pe.n} intento${pe.n!==1?"s":""} · promedio ${Math.round(100*pe.suma/pe.n)}%</span>` : `<span>Todavía sin intentos</span>`}
+        ${mejor !== null ? `<span><i class="ti ti-trophy"></i> Tu mejor: ${mejor}%</span>` : ""}</div>
+      <div class="note" style="margin:0;">Fuente: ${esc(s.fuente)}</div>
+      <div class="actions"><button data-act="start" data-esc="${esc(s.id)}"><i class="ti ti-player-play"></i> ${mi.length ? "Practicar de nuevo" : "Empezar"}</button></div>
+    </div>`;
+  });
+  h += `</div>`;
+
+  // preguntas más falladas
+  const idx = {}; ESCENARIOS.forEach(s => s.q.forEach(q => { idx[q.id] = {q, s}; }));
+  const falladas = Object.entries(simData.preg).filter(([qid,v]) => idx[qid] && v.f > 0)
+    .sort((a,b) => (b[1].f/b[1].n) - (a[1].f/a[1].n) || b[1].n - a[1].n).slice(0,5);
+  h += `<div class="panel" style="margin-top:18px;"><h4><i class="ti ti-chart-bar"></i> Dónde conviene reforzar</h4>` + (falladas.length ?
+    falladas.map(([qid,v]) => `<div class="prior-row"><b class="pid">${Math.round(100*v.f/v.n)}% falló</b><span>${esc(idx[qid].q.preg)}</span><span class="est est-sin-datos">${esc(idx[qid].s.titulo)} · ${v.f} de ${v.n}</span></div>`).join("")
+    : `<div class="hint" style="margin:0;">Cuando el equipo complete escenarios, acá aparecen las preguntas que más se fallan. Sirve para decidir qué reforzar en la próxima capacitación y qué procesos revisar.</div>`) + `</div>`;
+
+  // mis intentos
+  if(simData.mios.length){
+    h += `<div class="panel"><h4><i class="ti ti-history"></i> Tus últimos intentos</h4>` +
+      simData.mios.slice(0,6).map(x => `<div class="prior-row"><b class="pid">${x.a} de ${x.t}</b><span>${esc(x.titulo)}</span><span style="color:var(--texto-suave);font-size:12px;">${esc(fmtFecha(x.fecha))}</span></div>`).join("") + `</div>`;
+  }
+  // detalle por persona: solo cuenta autorizada
+  if(autorizadoNombres() && simData.todos.length){
+    h += `<div class="panel"><h4><i class="ti ti-users"></i> Resultados por persona</h4><div class="cob-tablewrap"><table class="cob" style="min-width:520px;"><thead><tr><th>Persona</th><th>Escenario</th><th>Resultado</th><th>Fecha</th></tr></thead><tbody>` +
+      simData.todos.slice(0,60).map(x => `<tr><td>${esc(x.email)}</td><td>${esc(x.titulo)}</td><td>${x.a} de ${x.t} (${Math.round(100*x.a/x.t)}%)</td><td>${esc(fmtFecha(x.fecha))}</td></tr>`).join("") + `</tbody></table></div></div>`;
+  }
+  // casos de la bitácora
+  h += `<h4 class="proc-rol" style="margin-top:22px;">Casos de la Bitácora para analizar</h4>`;
+  if(!casos.length){
+    h += `<div class="hint">Cuando marques un evento de la Bitácora como «caso de práctica», aparece acá para que el equipo analice qué pasó antes de ver la causa y la lección registradas.</div>`;
+  } else {
+    h += `<div class="grid">` + casos.map(([id,e]) => `<div class="doc-card">
+      <span class="tipo-tag">${esc(e.tipo||"Evento")}</span>
+      <h3>${esc(e.titulo||"(sin título)")}</h3>
+      <div class="meta">${e.zona ? `<span><i class="ti ti-map-pin"></i> ${esc(e.zona)}</span>` : ""}${e.rol ? `<span><i class="ti ti-user"></i> ${esc(e.rol)}</span>` : ""}</div>
+      ${e.que ? `<div class="ev-sec"><div class="ev-lbl">Qué pasó</div><p>${esc(e.que)}</p></div>` : ""}
+      <div class="field"><label>¿Cuál creés que fue la causa?</label><textarea data-caso="${esc(id)}" data-k="c">${esc(casoTxt[id+":c"]||"")}</textarea></div>
+      <div class="field"><label>¿Qué lección sacás y qué cambiarías?</label><textarea data-caso="${esc(id)}" data-k="l">${esc(casoTxt[id+":l"]||"")}</textarea></div>
+      ${casoAbierto[id] ? `<div class="ev-sec ev-leccion"><div class="ev-lbl">Lo registrado por el COD</div>
+        ${e.causa ? `<p><b>Causa:</b> ${esc(e.causa)}</p>` : "<p>Sin causa registrada.</p>"}
+        ${e.leccion ? `<p style="margin-top:6px;"><b>Lección:</b> ${esc(e.leccion)}</p>` : ""}
+        ${e.accion ? `<p style="margin-top:6px;"><b>Acción:</b> ${esc(e.accion)}</p>` : ""}</div>` : ""}
+      <div class="actions"><button data-act="caso" data-id="${esc(id)}"><i class="ti ti-eye"></i> ${casoAbierto[id] ? "Ocultar lo registrado" : "Ver lo registrado y comparar"}</button></div>
+    </div>`).join("") + `</div>`;
+  }
+  h += `<div class="hint" style="margin-top:14px;">Los resultados guardan tu usuario. Los totales y las preguntas más falladas los ve todo el equipo; el detalle por persona se muestra solo a la cuenta autorizada.</div>`;
+  return h;
+}
+
+function simPregunta(){
+  const s = simEsc, q = s.q[simI], r = simResp[simI];
+  let h = `<div class="sim-head"><button class="linkbtn" data-act="back"><i class="ti ti-arrow-left"></i> Escenarios</button>
+    <span>${esc(s.titulo)} · Pregunta ${simI+1} de ${s.q.length}</span></div>
+    <div class="sim-bar"><i style="width:${Math.round(100*simI/s.q.length)}%"></i></div>
+    <div class="panel">`;
+  if(q.situ) h += `<div class="sim-situ">${esc(q.situ)}</div>`;
+  h += `<h3 class="sim-preg">${esc(q.preg)}</h3>`;
+  if(q.t === "op"){
+    const ord = shuf(q.o.length, q.id + "o");
+    ord.forEach(oi => {
+      let c = "sim-op";
+      if(r.hecho){ if(q.o[oi][1]) c += " ok"; else if(r.sel === oi) c += " bad"; }
+      else if(r.sel === oi) c += " sel";
+      h += `<button class="${c}" data-act="opt" data-i="${oi}" ${r.hecho ? "disabled" : ""}>${esc(q.o[oi][0])}</button>`;
+    });
+    if(r.hecho){
+      h += r.ok ? `<div class="sim-fb ok"><b>Correcto.</b></div>` : `<div class="sim-fb bad"><b>No era esa.</b> ${esc(q.o[r.sel][2] || "")}</div>`;
+    }
+  } else {
+    h += `<div class="note" style="margin:0 0 10px;">Usá las flechas para mover cada paso hasta dejarlos en el orden correcto.</div><ol class="sim-ord">`;
+    r.ord.forEach((ii, pos) => {
+      let c = "";
+      if(r.hecho) c = (ii === pos) ? "ok" : "bad";
+      h += `<li class="${c}"><span>${esc(q.items[ii])}</span>${r.hecho ? "" : `<span class="sim-mv"><button data-act="up" data-i="${pos}" ${pos===0?"disabled":""} aria-label="Subir">▲</button><button data-act="down" data-i="${pos}" ${pos===r.ord.length-1?"disabled":""} aria-label="Bajar">▼</button></span>`}</li>`;
+    });
+    h += `</ol>`;
+    if(r.hecho){
+      h += r.ok ? `<div class="sim-fb ok"><b>Correcto.</b> El orden es el del documento.</div>` :
+        `<div class="sim-fb bad"><b>El orden correcto es:</b><ol>${q.items.map(x => `<li>${esc(x)}</li>`).join("")}</ol></div>`;
+    }
+  }
+  if(r.hecho) h += `<div class="sim-ref"><i class="ti ti-book-2"></i> <b>Qué dice el documento:</b> ${esc(q.ref)}</div>`;
+  h += `<div class="actions" style="border:none;padding-top:12px;">` +
+    (!r.hecho ? `<button class="btn-ghost" style="margin:0;" data-act="confirm" ${(q.t==="op" && r.sel===null) ? "disabled" : ""}>Confirmar respuesta</button>`
+              : `<button class="btn-ghost" style="margin:0;" data-act="next">${simI === s.q.length-1 ? "Ver resultado" : "Siguiente"} <i class="ti ti-arrow-right"></i></button>`) +
+    `</div></div>`;
+  return h;
+}
+
+function simFin(){
+  const s = simEsc;
+  const ac = simResp.filter(r => r.ok).length, tot = s.q.length, pct = Math.round(100 * ac / tot);
+  const msg = pct >= 80 ? "Muy bien: dominás este escenario." : (pct >= 50 ? "Vas bien, pero conviene reforzar algunos puntos." : "Conviene repasar el proceso y volver a intentarlo.");
+  const fallos = s.q.map((q,i) => ({q, i})).filter(x => !simResp[x.i].ok);
+  let h = `<div class="panel"><div class="sim-score"><span class="big">${ac} de ${tot}</span><span>${pct}% · ${esc(msg)}</span></div>
+    <div class="note" style="margin:6px 0 0;">${simGuardado ? "Resultado guardado." : "No se pudo guardar el resultado."}</div></div>`;
+  if(fallos.length){
+    h += `<div class="panel"><h4>Para repasar</h4>` + fallos.map(x => `<div class="prior-row" style="align-items:flex-start;"><span style="flex:1;min-width:220px;"><b>${esc(x.q.preg)}</b><br><span style="color:var(--texto-suave);font-size:12.5px;">${esc(x.q.ref)}</span></span>${x.q.proc && PM_IDX[x.q.proc] ? `<button class="linkbtn" data-act="proc" data-p="${esc(PM_IDX[x.q.proc].k)}">Ver proceso ${esc(x.q.proc)}</button>` : ""}</div>`).join("") + `</div>`;
+  } else {
+    h += `<div class="panel"><div class="hint" style="margin:0;">Sin errores en este escenario.</div></div>`;
+  }
+  h += `<div class="actions" style="border:none;gap:10px;"><button class="btn-ghost" style="margin:0;" data-act="start" data-esc="${esc(s.id)}">Repetir escenario</button><button class="btn-ghost" style="margin:0;" data-act="back">Volver a escenarios</button></div>`;
+  return h;
+}
+
+function simGuardarIntento(){
+  const s = simEsc;
+  const det = {};
+  s.q.forEach((q,i) => { det[q.id] = simResp[i].ok ? 1 : 0; });
+  const reg = {uid: currentUser ? currentUser.uid : "", email: currentUser ? (currentUser.email || "") : "", escenario: s.id, titulo: s.titulo,
+    aciertos: simResp.filter(r => r.ok).length, total: s.q.length, fecha: hoyISO(), ts: Date.now(), detalle: det};
+  simGuardado = false;
+  return db.ref(NODO_SIM).push().set(reg).then(() => { simGuardado = true; }).catch(() => { simGuardado = false; });
+}
+
+document.getElementById("simBody").addEventListener("click", ev => {
+  const b = ev.target.closest("[data-act]");
+  if(!b || b.disabled) return;
+  const act = b.getAttribute("data-act");
+  if(act === "start") return simStart(b.getAttribute("data-esc"));
+  if(act === "back"){ simFase = "lista"; simEsc = null; return renderSim(); }
+  if(act === "caso"){ const id = b.getAttribute("data-id"); casoAbierto[id] = !casoAbierto[id]; return renderSim(); }
+  if(act === "proc") return abrirProc(b.getAttribute("data-p"));
+  if(simFase === "fin" || simFase === "lista" || !simEsc) return;
+  const q = simEsc.q[simI], r = simResp[simI];
+  const i = Number(b.getAttribute("data-i"));
+  if(act === "opt" && !r.hecho){ r.sel = i; }
+  else if(act === "up" && !r.hecho && i > 0){ const t = r.ord[i]; r.ord[i] = r.ord[i-1]; r.ord[i-1] = t; }
+  else if(act === "down" && !r.hecho && i < r.ord.length-1){ const t = r.ord[i]; r.ord[i] = r.ord[i+1]; r.ord[i+1] = t; }
+  else if(act === "confirm" && !r.hecho){
+    if(q.t === "op"){ if(r.sel === null) return; r.ok = q.o[r.sel][1] === 1; }
+    else r.ok = r.ord.every((v,p) => v === p);
+    r.hecho = true;
+  }
+  else if(act === "next" && r.hecho){
+    if(simI < simEsc.q.length - 1){ simI++; }
+    else { simFase = "fin"; simGuardarIntento().then(() => { if(simFase === "fin") renderSim(); }); }
+  }
+  renderSim();
+  if(act === "next") window.scrollTo({top:0, behavior:"smooth"});
+});
+document.getElementById("simBody").addEventListener("input", ev => {
+  const t = ev.target;
+  if(t.matches && t.matches("textarea[data-caso]")) casoTxt[t.getAttribute("data-caso") + ":" + t.getAttribute("data-k")] = t.value;
 });
 
 /* ---------- Ejemplos para ver cómo funciona ---------- */
